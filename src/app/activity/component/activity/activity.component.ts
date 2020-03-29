@@ -21,5 +21,10 @@ export class ActivityComponent implements OnInit {
         this.activities = activities;
         console.log('activities', this.activities);
       });
+    this.activityService
+      .findConfig()
+      .subscribe(((s: any) => {
+        console.log(s);
+      }))
   }
 }

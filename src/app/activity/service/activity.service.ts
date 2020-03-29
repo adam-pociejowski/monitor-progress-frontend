@@ -5,11 +5,19 @@ import { DocumentModel } from '../../core/model/document.model';
 import { Activity } from '../model/activity.model';
 import { Measure } from '../model/measure.model';
 import { Observable } from 'rxjs';
+import { ActivityConfig } from '../model/activity.config.model';
 
 @Injectable()
 export class ActivityService {
 
-  constructor(private restService: RestService) {}
+  constructor(private restService: RestService) {
+  }
+
+  findConfig = () =>
+    this.restService
+      .get('/activity/config')
+      .map((response: any) =>
+        response.map((element: any) => new ActivityConfig(element.name, element.measureType, element.fitnessPointsFactor)));
 
   findOlderDocuments = (limit: number, previousDate: string): Observable<DocumentModel<Activity>[]> =>
     this.restService
