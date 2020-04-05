@@ -1,1 +1,22 @@
-<p>activity works!</p>
+<div class="card" style="width: 25rem">
+  <div class="card-body">
+    <h2 class="card-title">Add Activity</h2>
+    <form [formGroup]="addActivityFormGroup" (ngSubmit)="onActivitySubmit()">
+      <div class="form-group">
+        <label for="nameInput">Name</label>
+        <input type="text" class="form-control" id="nameInput" formControlName="name">
+      </div>
+      <div class="form-group">
+        <label for="activityTypeSelect" >Select activity type</label>
+        <select class="form-control" id="activityTypeSelect" formControlName="type" (ngModelChange)="onTypeChanged($event)">
+          <option *ngFor="let config of this.configs" [ngValue]="config.name" >{{config.name}}</option>
+        </select>
+      </div>
+      <div class="form-group" formGroupName="measure">
+        <label for="amountInput">Amount</label>
+        <input type="number" class="form-control" id="amountInput" formControlName="value">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
