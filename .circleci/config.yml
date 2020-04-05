@@ -1,0 +1,52 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/monitor-progress-backend
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+         name: Update NPM
+         command: sudo npm install -g npm@latest
+      - run:
+         name: Install NPM dependencies
+         command: npm install
+      - save_cache:
+         key: dependency-cache-{{ checksum "package-lock.json" }}
+         paths:
+           - ./node_module
+      - run:
+          name: Build dist
+          command: npm run build_prod
+      - run:
+          name: Log In into Dockerhub
+          command: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      - run:
+          name: Build docker image
+          command: docker build -t apociejowski/monitoring-progress-frontend:$CIRCLE_BUILD_NUM -t apociejowski/monitoring-progress-frontend:latest .
+      - run:
+           name: Push current version of docker image
+           command: docker push apociejowski/monitoring-progress-frontend:$CIRCLE_BUILD_NUM
+      - run:
+          name: Push latest version of docker image
+          command: docker push apociejowski/monitoring-progress-frontend:latest
+      - add_ssh_keys:
+          fingerprints:
+            - $PRIVATE_KEY_FINGERPRINT
+      - run:
+          name: Add server IP to known hosts
+          command: ssh-keyscan $MASTER_SERVER_URL >> ~/.ssh/known_hosts
+      - run:
+          name: Change image verion in configuration file
+          command: find ./k8s/. -name deployment.yaml -exec sed -i "s/apociejowski\/monitoring-progress-frontend/apociejowski\/monitoring-progress-frontend:$CIRCLE_BUILD_NUM/g" {} +
+      - run:
+          name: Send configuration files to server
+          command: 'scp -i ~/.ssh/id_rsa_circleci_remote_docker_engine -r k8s valverde@$MASTER_SERVER_URL:'
+      - run:
+          name: Apply kubernetes configuration
+          command: ssh -i ~/.ssh/id_rsa_circleci_remote_docker_engine valverde@$MASTER_SERVER_URL 'kubectl apply -f ~/k8s'
+      - run:
+          name: Remove kubernetes configuration file
+          command: ssh -i ~/.ssh/id_rsa_circleci_remote_docker_engine valverde@$MASTER_SERVER_URL 'rm -r ~/k8s'
