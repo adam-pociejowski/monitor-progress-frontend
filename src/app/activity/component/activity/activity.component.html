@@ -7,9 +7,10 @@
         <input type="text" class="form-control" id="nameInput" formControlName="name">
       </div>
       <div class="form-group">
-        <label for="activityTypeSelect" >Select activity type</label>
-        <select class="form-control" id="activityTypeSelect" formControlName="type" (ngModelChange)="onTypeChanged($event)">
-          <option *ngFor="let config of this.configs" [ngValue]="config.name" >{{config.name}}</option>
+        <label for="activityTypeSelect">Select activity type</label>
+        <select class="form-control" id="activityTypeSelect" formControlName="type"
+                (ngModelChange)="onTypeChanged($event)">
+          <option *ngFor="let config of this.configs" [ngValue]="config.name">{{config.name}}</option>
         </select>
       </div>
       <div class="form-group" formGroupName="measure">
@@ -20,3 +21,6 @@
     </form>
   </div>
 </div>
+
+<app-activity-result [result]="currentResult" [header]="'Your Result'"></app-activity-result>
+<app-activity-result [result]="recordResult" [header]="'Record'"></app-activity-result>

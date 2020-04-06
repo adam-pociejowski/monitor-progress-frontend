@@ -6,6 +6,8 @@ import { ActivityConfig } from '../../model/activity.config.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MeasureType } from '../../model/measure.type.enum';
 import { Measure } from '../../model/measure.model';
+import {ToastService} from "../../../core/service/toast.service";
+import {ActivityResult} from "../../model/activity.result.model";
 
 @Component({
   selector: 'app-activity',
@@ -13,8 +15,10 @@ import { Measure } from '../../model/measure.model';
   styleUrls: ['./activity.component.css']
 })
 export class ActivityComponent implements OnInit {
-  activities: DocumentModel<Activity>[];
   configs: ActivityConfig[] = [];
+  activities: DocumentModel<Activity>[];
+  currentResult: ActivityResult;
+  recordResult: ActivityResult;
   addActivityFormGroup = new FormGroup({
     name: new FormControl(''),
     measure: new FormGroup({
@@ -24,8 +28,8 @@ export class ActivityComponent implements OnInit {
     type: new FormControl(null),
   });
 
-  constructor(private activityService: ActivityService) {
-  }
+  constructor(private activityService: ActivityService,
+              private toastService: ToastService) {}
 
   ngOnInit() {
     this.activityService
@@ -38,25 +42,16 @@ export class ActivityComponent implements OnInit {
       .findConfig()
       .subscribe(((configs: ActivityConfig[]) => {
         this.configs = configs;
-        console.log(configs);
-        this.addActivityFormGroup.setValue({
-          name: `activity_${ActivityComponent.generateDefaultName()}`,
-          measure: {
-            value: 0,
-            type: MeasureType.REPEATS
-          },
-          type: this.configs[0].name
-        });
+        this.resetForm();
       }));
   };
 
-  onTypeChanged = (value) => {
+  onTypeChanged = (value) =>
     this.addActivityFormGroup.patchValue({
       measure: {
         type: this.getConfigByName(value).measureType
       }
     });
-  };
 
   onActivitySubmit = () => {
     let form = this.addActivityFormGroup.getRawValue();
@@ -67,19 +62,38 @@ export class ActivityComponent implements OnInit {
       null,
       null))
       .subscribe(
-        (response) => console.log('Activity added', response),
-        error => console.log('Error while adding activity', error));
+        (response) => {
+          this.activityService
+            .getStats()
+            .subscribe((stats: any) => {
+              let factor = this.getConfigByName(form.type).fitnessPointsFactor;
+              this.currentResult = new ActivityResult(form.type, form.measure.value,form.measure.value * factor);
+              this.recordResult = new ActivityResult(form.type, stats[form.type].max,stats[form.type].max * factor);
+              this.toastService.info("Activity successfully added");
+              this.resetForm();
+            });
+        },error => {
+          console.error('Error while adding activity', error);
+          this.toastService.error("Exception while adding activity");
+        });
   };
 
   private getConfigByName = (name: string) => {
-    for (let config of this.configs) {
-      if (config.name === name) {
+    console.log(this.configs, name);
+    for (let config of this.configs)
+      if (config.name === name)
         return config;
-      }
-    }
   };
 
-  private static generateDefaultName(): string {
-    return Math.floor(Math.random() * 1000000).toString();
-  }
+  private resetForm = () =>
+    this.addActivityFormGroup.setValue( {
+      name: `activity_${ActivityComponent.generateDefaultName()}`,
+      measure: {
+        value: 0,
+        type: MeasureType.REPEATS
+      },
+      type: this.configs[0].name
+    });
+
+  private static generateDefaultName = (): string => Math.floor(Math.random() * 1000000).toString();
 }

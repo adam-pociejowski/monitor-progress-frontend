@@ -5,10 +5,13 @@ import { ActivityComponent } from './component/activity/activity.component';
 import { ActivityService } from './service/activity.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastService } from "../core/service/toast.service";
+import { ActivityResultComponent } from './component/activity-result/activity.result.component';
 
 @NgModule({
   declarations: [
-    ActivityComponent
+    ActivityComponent,
+    ActivityResultComponent
   ],
   imports: [
     SharedModule,
@@ -17,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   providers: [
-    ActivityService
+    ActivityService,
+    ToastService
   ]
 })
 export class ActivityModule { }

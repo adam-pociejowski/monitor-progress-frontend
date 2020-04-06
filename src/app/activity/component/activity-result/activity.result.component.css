@@ -1,0 +1,13 @@
+.bold {
+  font-weight: bold;
+}
+
+.activity-result-table {
+  width: 30rem;
+  margin-bottom: 30px;
+}
+
+.header {
+  font-weight: bold;
+  font-size: 25px;
+}

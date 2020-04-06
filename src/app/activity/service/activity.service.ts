@@ -6,12 +6,25 @@ import { Activity } from '../model/activity.model';
 import { Measure } from '../model/measure.model';
 import { Observable } from 'rxjs';
 import { ActivityConfig } from '../model/activity.config.model';
+import {DocumentStats} from "../../core/model/document.stats.model";
 
 @Injectable()
 export class ActivityService {
 
-  constructor(private restService: RestService) {
-  }
+  constructor(private restService: RestService) {}
+
+  getStats = () => {
+    return this.restService
+      .get('/activity/stats')
+      .map((obj: any) => {
+        let stats: any = {};
+        for (let key in obj) {
+          let element = obj[key];
+          stats[key] = new DocumentStats(element.sum, element.count, element.min, element.max, element.sumsqr);
+        }
+        return stats;
+      });
+  };
 
   findConfig = () =>
     this.restService
