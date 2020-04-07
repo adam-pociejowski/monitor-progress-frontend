@@ -1,0 +1,18 @@
+
+<table class="table activity-result-table" *ngIf="activity && record">
+  <tr>
+    <td></td>
+    <td class="header">Your result</td>
+    <td class="header">Current record</td>
+  </tr>
+  <tr>
+    <td class="bold">Amount</td>
+    <td>{{activity.result}}</td>
+    <td>{{record.result}}</td>
+  </tr>
+  <tr>
+    <td class="bold">Fitness points</td>
+    <td>{{activity.fitnessPoints}}</td>
+    <td>{{record.fitnessPoints}}</td>
+  </tr>
+</table>

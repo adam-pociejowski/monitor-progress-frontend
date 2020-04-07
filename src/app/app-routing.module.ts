@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {
-    path: 'activity',
-    loadChildren: './activity/activity.module#ActivityModule',
+    path: 'add-activity',
+    loadChildren: './add-activity/add-activity.module#ActivityModule',
   },
 ];
 

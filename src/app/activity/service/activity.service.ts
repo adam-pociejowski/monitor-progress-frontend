@@ -4,14 +4,23 @@ import { RestService } from '../../core/service/rest.service';
 import { DocumentModel } from '../../core/model/document.model';
 import { Activity } from '../model/activity.model';
 import { Measure } from '../model/measure.model';
-import { Observable } from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import { ActivityConfig } from '../model/activity.config.model';
 import {DocumentStats} from "../../core/model/document.stats.model";
+import "rxjs-compat/add/observable/of";
 
 @Injectable()
 export class ActivityService {
+  configs: ActivityConfig[] = [];
+  activities: DocumentModel<Activity>[];
+  onActivityAdded = new Subject<Activity>();
 
   constructor(private restService: RestService) {}
+
+  getFitnessPointsPerDay = () => {
+    return this.restService
+      .get('/activity/stats-per-day');
+  };
 
   getStats = () => {
     return this.restService
@@ -26,11 +35,24 @@ export class ActivityService {
       });
   };
 
-  findConfig = () =>
-    this.restService
-      .get('/activity/config')
-      .map((response: any) =>
-        response.map((element: any) => new ActivityConfig(element.name, element.measureType, element.fitnessPointsFactor)));
+  getConfigByName = (name: string) => {
+    return this.getConfigs()
+      .map((configs : ActivityConfig[]) => {
+        for (let config of configs)
+          if (config.name === name)
+            return config;
+      });
+  };
+
+  getConfigs = () => {
+    if (this.configs.length == 0) {
+      return this.restService
+        .get('/activity/config')
+        .map((response: any) =>
+          response.map((element: any) => new ActivityConfig(element.name, element.measureType, element.fitnessPointsFactor)));
+    }
+    return Observable.of(this.configs)
+  };
 
   findOlderDocuments = (limit: number, previousDate: string): Observable<DocumentModel<Activity>[]> =>
     this.restService
