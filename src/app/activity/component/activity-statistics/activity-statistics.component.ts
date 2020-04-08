@@ -12,12 +12,19 @@ export class ActivityStatisticsComponent implements OnInit {
   colorScheme = {
     domain: ['#5AA454']
   };
+  numberOfDaysForStats = 7;
 
   constructor(private activityStatisticsService: ActivityStatisticsService) {}
 
   ngOnInit(): void {
+    this.getFitnessPointsPerDay();
+  }
+
+  getFitnessPointsPerDay = () =>
     this.activityStatisticsService
-      .getFitnessPointsPerDay()
+      .getFitnessPointsPerDay(
+        ActivityStatisticsService.getDateString(new Date(new Date().setDate(new Date().getDate() - this.numberOfDaysForStats + 1))),
+        ActivityStatisticsService.getDateString(new Date()))
       .subscribe((data: any) => {
         console.log(data);
         this.data = [];
@@ -28,7 +35,9 @@ export class ActivityStatisticsComponent implements OnInit {
           })
         }
         console.log(this.data);
-      })
-  }
+        this.view = [100 + this.data.length * 100, 400];
+      });
 
+  onIntervalChanged = () =>
+    this.getFitnessPointsPerDay();
 }

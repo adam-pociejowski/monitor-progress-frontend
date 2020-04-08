@@ -8,6 +8,7 @@ import { ActivityResultComponent } from './component/activity-dashboard/activity
 import { ActivityDashboardComponent } from './component/activity-dashboard/activity-dashboard.component';
 import { ActivityStatisticsComponent } from './component/activity-statistics/activity-statistics.component';
 import {ActivityStatisticsService} from "./service/activity-statistics.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,10 +17,10 @@ import {ActivityStatisticsService} from "./service/activity-statistics.service";
     ActivityDashboardComponent,
     ActivityStatisticsComponent
   ],
-  imports: [
-    SharedModule,
-    ActivityRoutingModule,
-  ],
+    imports: [
+        SharedModule,
+        ActivityRoutingModule
+    ],
   providers: [
     ActivityService,
     ActivityStatisticsService,

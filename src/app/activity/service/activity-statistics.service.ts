@@ -9,9 +9,9 @@ export class ActivityStatisticsService {
 
   constructor(private restService: RestService) {}
 
-  getFitnessPointsPerDay = () => {
+  getFitnessPointsPerDay = (startKey: string, endKey: string) => {
     return this.restService
-      .get('/activity-statistics/stats-per-day');
+      .get(`/activity-statistics/stats-per-day/${startKey}/${endKey}`);
   };
 
   getStats = () => {
@@ -26,4 +26,16 @@ export class ActivityStatisticsService {
         return stats;
       });
   };
+
+  static getDateString = (date: Date) => {
+    let month = (date.getMonth() + 1).toString();
+    if (date.getMonth() + 1 < 10) {
+      month = `0${month}`;
+    }
+    let day = date.getDate().toString();
+    if (date.getDate() < 10) {
+      day = `0${day}`;
+    }
+    return  `${date.getFullYear()}-${month}-${day}`;
+  }
 }

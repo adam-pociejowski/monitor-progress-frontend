@@ -1,4 +1,4 @@
-<div class="card" style="width: 720px">
+<div class="card">
   <h5 class="card-title">Fitness points per day</h5>
   <div class="card-body">
     <ngx-charts-bar-vertical
@@ -14,4 +14,9 @@
       [yAxisLabel]="'Fitness points'">
     </ngx-charts-bar-vertical>
   </div>
+</div>
+
+<div class="form-group">
+  <input type="number" [(ngModel)]="numberOfDaysForStats" />
+  <button class="btn btn-primary" (click)="onIntervalChanged()">Change interval</button>
 </div>
