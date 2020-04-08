@@ -17,24 +17,6 @@ export class ActivityService {
 
   constructor(private restService: RestService) {}
 
-  getFitnessPointsPerDay = () => {
-    return this.restService
-      .get('/activity/stats-per-day');
-  };
-
-  getStats = () => {
-    return this.restService
-      .get('/activity/stats')
-      .map((obj: any) => {
-        let stats: any = {};
-        for (let key in obj) {
-          let element = obj[key];
-          stats[key] = new DocumentStats(element.sum, element.count, element.min, element.max, element.sumsqr);
-        }
-        return stats;
-      });
-  };
-
   getConfigByName = (name: string) => {
     return this.getConfigs()
       .map((configs : ActivityConfig[]) => {

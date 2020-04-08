@@ -3,6 +3,7 @@ import {ActivityResult} from "../../../model/activity.result.model";
 import {ActivityService} from "../../../service/activity.service";
 import {Activity} from "../../../model/activity.model";
 import {ActivityConfig} from "../../../model/activity.config.model";
+import {ActivityStatisticsService} from "../../../service/activity-statistics.service";
 
 @Component({
   selector: 'app-activity-result',
@@ -13,10 +14,13 @@ export class ActivityResultComponent implements OnInit {
   activity: ActivityResult;
   record: ActivityResult;
 
+  constructor(private activityService: ActivityService,
+              private activityStatisticsService: ActivityStatisticsService) {}
+
   ngOnInit(): void {
     this.activityService.onActivityAdded
       .subscribe((activity: Activity) => {
-        this.activityService
+        this.activityStatisticsService
           .getStats()
           .subscribe((stats: any) => {
             this.activityService.getConfigByName(activity.type)
@@ -28,6 +32,4 @@ export class ActivityResultComponent implements OnInit {
           });
       })
   }
-
-  constructor(private activityService: ActivityService) {}
 }

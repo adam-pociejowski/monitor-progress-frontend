@@ -1,0 +1,17 @@
+<div class="card" style="width: 720px">
+  <h5 class="card-title">Fitness points per day</h5>
+  <div class="card-body">
+    <ngx-charts-bar-vertical
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="data"
+      [gradient]="false"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [yAxisLabel]="'Fitness points'">
+    </ngx-charts-bar-vertical>
+  </div>
+</div>

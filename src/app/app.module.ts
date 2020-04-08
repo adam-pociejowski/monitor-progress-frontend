@@ -9,10 +9,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ActivityModule } from './activity/activity.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NavbarComponent } from './core/component/navbar/navbar.component';
+import { NgxChartsModule } from "@swimlane/ngx-charts";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
