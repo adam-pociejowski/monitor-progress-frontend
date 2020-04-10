@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivityStatisticsService} from "../../service/activity-statistics.service";
+import {ShortDatePipe} from "../../../core/pipe/short.date.pipe";
 
 @Component({
   selector: 'app-activity-statistics',
@@ -13,6 +14,7 @@ export class ActivityStatisticsComponent implements OnInit {
     domain: ['#5AA454']
   };
   numberOfDaysForStats = 14;
+  datePipe = new ShortDatePipe();
 
   constructor(private activityStatisticsService: ActivityStatisticsService) {}
 
@@ -26,15 +28,13 @@ export class ActivityStatisticsComponent implements OnInit {
         ActivityStatisticsService.getDateString(new Date(new Date().setDate(new Date().getDate() - this.numberOfDaysForStats + 1))),
         ActivityStatisticsService.getDateString(new Date()))
       .subscribe((data: any) => {
-        console.log(data);
         this.data = [];
         for (let date in data) {
           this.data.push({
-            name: date,
+            name: this.datePipe.transform(date),
             value: data[date]
           })
         }
-        console.log(this.data);
         this.view = [100 + this.data.length * 100, 400];
       });
 
