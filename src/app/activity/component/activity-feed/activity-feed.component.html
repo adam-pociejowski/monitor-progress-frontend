@@ -1,0 +1,27 @@
+<div>
+  <div class="card day-card"
+       *ngFor="let dayActivities of dayActivitiesList">
+    <h5 class="card-title">{{dayActivities.date}}</h5>
+    <div class="card-body">
+      <div class="card activity-card"
+           *ngFor="let activity of dayActivities.activities">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{activity.value.name}}
+            <fa-icon class="skull-icon float-right" [icon]="faSkull"></fa-icon>
+            <fa-icon class="edit-icon float-right" [icon]="faEdit"></fa-icon>
+          </h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item list-element">Type: {{activity.value.type}}</li>
+          <li class="list-group-item list-element">Amount: {{activity.value.measure.value}}</li>
+          <li class="list-group-item list-element">Fitness points: {{activity.value.fitnessPoints}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-primary"
+        (click)="findNextPageOfActivities()"
+        style="font-size: 22px">Load next activities</button>

@@ -1,0 +1,52 @@
+.list-element {
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+
+.card-body {
+  padding-bottom: 5px;
+  padding-top: 10px;
+}
+
+.card {
+  border-style: solid;
+  border-left-width: 4px;
+  border-right-width: 4px;
+  border-bottom-width: 4px;
+}
+
+.day-card {
+  width: 50rem;
+  padding-left: 15px;
+  padding-bottom: 6px;
+  margin-top: 15px;
+
+}
+
+.day-card > h5 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.activity-card {
+  width: 40rem;
+}
+
+.edit-icon {
+  color: #004ba0;
+  cursor: pointer;
+}
+
+.edit-icon:hover {
+  color: #63a4ff;
+}
+
+.skull-icon {
+  margin-left: 20px;
+  color: #ab000d;
+  cursor: pointer;
+}
+
+.skull-icon:hover {
+  color: #ff6f60;
+}

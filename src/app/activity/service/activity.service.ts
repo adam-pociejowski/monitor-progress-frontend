@@ -12,7 +12,6 @@ import "rxjs-compat/add/observable/of";
 @Injectable()
 export class ActivityService {
   configs: ActivityConfig[] = [];
-  activities: DocumentModel<Activity>[];
   onActivityAdded = new Subject<Activity>();
 
   constructor(private restService: RestService) {}

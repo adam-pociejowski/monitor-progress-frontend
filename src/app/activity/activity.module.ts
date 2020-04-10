@@ -9,13 +9,17 @@ import { ActivityDashboardComponent } from './component/activity-dashboard/activ
 import { ActivityStatisticsComponent } from './component/activity-statistics/activity-statistics.component';
 import {ActivityStatisticsService} from "./service/activity-statistics.service";
 import {FormsModule} from "@angular/forms";
+import { ActivityFeedComponent } from './component/activity-feed/activity-feed.component';
+import { ShortDatePipe } from "../core/pipe/short.date.pipe";
 
 @NgModule({
   declarations: [
     AddActivityComponent,
     ActivityResultComponent,
     ActivityDashboardComponent,
-    ActivityStatisticsComponent
+    ActivityStatisticsComponent,
+    ActivityFeedComponent,
+    ShortDatePipe
   ],
     imports: [
         SharedModule,
