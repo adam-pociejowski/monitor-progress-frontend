@@ -1,12 +1,11 @@
-import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
 import { RestService } from '../../core/service/rest.service';
 import { DocumentModel } from '../../core/model/document.model';
 import { Activity } from '../model/activity.model';
 import { Measure } from '../model/measure.model';
-import {Observable, Subject} from 'rxjs';
 import { ActivityConfig } from '../model/activity.config.model';
-import {DocumentStats} from "../../core/model/document.stats.model";
+import { Observable, Subject } from 'rxjs';
+import 'rxjs/add/operator/map';
 import "rxjs-compat/add/observable/of";
 
 @Injectable()
@@ -29,8 +28,10 @@ export class ActivityService {
     if (this.configs.length == 0) {
       return this.restService
         .get('/activity/config')
-        .map((response: any) =>
-          response.map((element: any) => new ActivityConfig(element.name, element.measureType, element.fitnessPointsFactor)));
+        .map((response: any) => {
+            this.configs = response.map((element: any) => new ActivityConfig(element.name, element.measureType, element.fitnessPointsFactor));
+            return this.configs;
+        });
     }
     return Observable.of(this.configs)
   };
