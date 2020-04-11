@@ -7,6 +7,8 @@ import { DayActivities } from "../../model/day.activities.model";
 import { ShortDatePipe } from "../../../core/pipe/short.date.pipe";
 import { ToastService } from "../../../core/service/toast.service";
 import { Router } from "@angular/router";
+import {ActivityStatisticsService} from "../../service/activity-statistics.service";
+import {DocumentStats} from "../../../core/model/document.stats.model";
 
 @Component({
   selector: 'app-activity-feed',
@@ -17,15 +19,20 @@ export class ActivityFeedComponent implements OnInit {
   pageSize = 10;
   faEdit = faEdit;
   faSkull = faSkull;
+  stats: any;
   dayActivitiesList: DayActivities[] = [];
   datePipe = new ShortDatePipe();
 
-  constructor(private activityService: ActivityService,
+  constructor(private activityStatisticsService: ActivityStatisticsService,
+              private activityService: ActivityService,
               private toastService: ToastService,
               private router: Router) {}
 
   ngOnInit(): void {
     this.findNextPageOfActivities();
+    this.activityStatisticsService
+      .getStats()
+      .subscribe((stats: any) => { this.stats = stats; console.log(stats);} )
   }
 
   onActivityDeleted = (dayActivities: DayActivities,

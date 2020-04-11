@@ -75,6 +75,7 @@ export class ActivityService {
           element.value.measure.type,
           element.value.measure.value),
         element.value.fitnessPoints,
-        element.value.metadata)
+        element.value.metadata),
+      element.type
     );
 }

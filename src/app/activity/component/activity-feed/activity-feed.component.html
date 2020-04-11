@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="stats">
   <div class="card day-card"
        *ngFor="let dayActivities of dayActivitiesList">
     <h5 class="card-title">{{dayActivities.date}}</h5>
@@ -14,7 +14,9 @@
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item list-element">Type: {{activity.value.type}}</li>
-          <li class="list-group-item list-element">Amount: {{activity.value.measure.value}}</li>
+          <li class="list-group-item list-element">Amount: {{activity.value.measure.value}}
+            <span *ngIf="stats[activity.value.type].max == activity.value.measure.value" class="badge badge-success">Record!</span>
+          </li>
           <li class="list-group-item list-element">Fitness points: {{activity.value.fitnessPoints}}</li>
         </ul>
       </div>
