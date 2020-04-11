@@ -5,8 +5,7 @@ import { ActivityConfig } from '../../../model/activity.config.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MeasureType } from '../../../model/measure.type.enum';
 import { Measure } from '../../../model/measure.model';
-import {ToastService} from "../../../../core/service/toast.service";
-import {ActivityResult} from "../../../model/activity.result.model";
+import { ToastService } from "../../../../core/service/toast.service";
 
 @Component({
   selector: 'app-add-activity',
@@ -14,8 +13,6 @@ import {ActivityResult} from "../../../model/activity.result.model";
   styleUrls: ['./add-activity.component.css']
 })
 export class AddActivityComponent implements OnInit {
-  currentResult: ActivityResult;
-  recordResult: ActivityResult;
   configs: ActivityConfig[] = [];
   addActivityFormGroup = new FormGroup({
     name: new FormControl(''),
@@ -62,7 +59,7 @@ export class AddActivityComponent implements OnInit {
             .subscribe((config: ActivityConfig) => this.resetForm(config));
         },error => {
           console.error('Error while adding add-activity', error);
-          this.toastService.error("Exception while adding add-activity");
+          this.toastService.error("Exception while adding activity");
         });
   };
 

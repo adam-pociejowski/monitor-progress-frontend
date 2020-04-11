@@ -8,8 +8,8 @@
         <div class="card-body">
           <h5 class="card-title">
             {{activity.value.name}}
-            <fa-icon class="skull-icon float-right" [icon]="faSkull"></fa-icon>
-            <fa-icon class="edit-icon float-right" [icon]="faEdit"></fa-icon>
+            <fa-icon (click)="onActivityDeleted(dayActivities, activity)" class="skull-icon float-right" [icon]="faSkull"></fa-icon>
+            <fa-icon (click)="onActivityEdit(activity)" class="edit-icon float-right" [icon]="faEdit"></fa-icon>
           </h5>
         </div>
         <ul class="list-group list-group-flush">

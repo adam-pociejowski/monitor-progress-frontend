@@ -5,6 +5,8 @@ import { DocumentModel } from "../../../core/model/document.model";
 import { faEdit, faSkull } from '@fortawesome/free-solid-svg-icons';
 import { DayActivities } from "../../model/day.activities.model";
 import { ShortDatePipe } from "../../../core/pipe/short.date.pipe";
+import { ToastService } from "../../../core/service/toast.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-activity-feed',
@@ -12,16 +14,34 @@ import { ShortDatePipe } from "../../../core/pipe/short.date.pipe";
   styleUrls: ['./activity-feed.component.css']
 })
 export class ActivityFeedComponent implements OnInit {
-  pageSize = 5;
+  pageSize = 10;
   faEdit = faEdit;
   faSkull = faSkull;
   dayActivitiesList: DayActivities[] = [];
   datePipe = new ShortDatePipe();
 
-  constructor(private activityService: ActivityService) {}
+  constructor(private activityService: ActivityService,
+              private toastService: ToastService,
+              private router: Router) {}
 
   ngOnInit(): void {
     this.findNextPageOfActivities();
+  }
+
+  onActivityDeleted = (dayActivities: DayActivities,
+                       activity: DocumentModel<Activity>) =>
+    this.activityService.delete(activity)
+      .subscribe(() => {
+        dayActivities.activities.splice(dayActivities.activities.indexOf(activity), 1);
+        if (dayActivities.activities.length == 0) {
+          this.dayActivitiesList.splice(this.dayActivitiesList.indexOf(dayActivities), 1);
+        }
+        this.toastService.info(`Activity ${activity.value.name} successfully removed`)
+      });
+
+  onActivityEdit = (activity: DocumentModel<Activity>) => {
+    this.activityService.editingActivity = activity;
+    this.router.navigate(['edit']);
   }
 
   findNextPageOfActivities = () =>

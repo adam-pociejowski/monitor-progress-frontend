@@ -8,10 +8,13 @@ import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import "rxjs-compat/add/observable/of";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ActivityService {
   configs: ActivityConfig[] = [];
   onActivityAdded = new Subject<Activity>();
+  editingActivity: DocumentModel<Activity>;
 
   constructor(private restService: RestService) {}
 
@@ -58,7 +61,7 @@ export class ActivityService {
 
   delete = (removedDocument: DocumentModel<Activity>) =>
     this.restService
-      .delete(`/${removedDocument.id}/${removedDocument.rev}`);
+      .delete(`/activity/${removedDocument.id}/${removedDocument.rev}`);
 
   private mapToActivityDocument = (element: any): DocumentModel<Activity> =>
     new DocumentModel<Activity>(
