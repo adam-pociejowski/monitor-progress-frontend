@@ -11,12 +11,17 @@ export class ActivityStatisticsService {
 
   getFitnessPointsPerDay = (startKey: string, endKey: string) => {
     return this.restService
-      .get(`/activity-statistics/stats-per-day/${startKey}/${endKey}`);
+      .get(`/activity-statistics/fitness-points-per-day/${startKey}/${endKey}`);
+  };
+
+  getStatsPerDate = () => {
+    return this.restService
+      .get(`/activity-statistics/stats-per-date`);
   };
 
   getStats = () => {
     return this.restService
-      .get('/activity-statistics/stats')
+      .get(`/activity-statistics/stats`)
       .map((obj: any) => {
         let stats: any = {};
         for (let key in obj) {
