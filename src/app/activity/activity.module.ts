@@ -10,6 +10,7 @@ import { ActivityStatisticsService } from "./service/activity-statistics.service
 import { ActivityFeedComponent } from './component/activity-feed/activity-feed.component';
 import { ShortDatePipe } from "../core/pipe/short.date.pipe";
 import { EditActivityComponent } from './component/activity-feed/edit-activity/edit-activity.component';
+import { ProgressDashboardComponent } from './component/progress-dashboard/progress-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { EditActivityComponent } from './component/activity-feed/edit-activity/e
     ActivityStatisticsComponent,
     ActivityFeedComponent,
     ShortDatePipe,
-    EditActivityComponent
+    EditActivityComponent,
+    ProgressDashboardComponent
   ],
     imports: [
         SharedModule,

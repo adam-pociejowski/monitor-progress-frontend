@@ -36,7 +36,8 @@ export class ActivityService {
             return this.configs;
         });
     }
-    return Observable.of(this.configs)
+    console.log('configs1', this.configs);
+    return Observable.of(this.configs);
   };
 
   findOlderDocuments = (limit: number, previousDate: string): Observable<DocumentModel<Activity>[]> =>

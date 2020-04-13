@@ -9,28 +9,34 @@ export class ActivityStatisticsService {
 
   constructor(private restService: RestService) {}
 
-  getFitnessPointsPerDay = (startKey: string, endKey: string) => {
-    return this.restService
+  getFitnessPointsPerDay = (startKey: string, endKey: string) =>
+    this.restService
       .get(`/activity-statistics/fitness-points-per-day/${startKey}/${endKey}`);
-  };
 
-  getStatsPerDate = () => {
-    return this.restService
-      .get(`/activity-statistics/stats-per-date`);
-  };
-
-  getStats = () => {
-    return this.restService
-      .get(`/activity-statistics/stats`)
-      .map((obj: any) => {
-        let stats: any = {};
-        for (let key in obj) {
-          let element = obj[key];
-          stats[key] = new DocumentStats(element.sum, element.count, element.min, element.max, element.sumsqr);
+  getStatsPerDate = () =>
+    this.restService
+      .get(`/activity-statistics/stats-per-date`)
+      .map((response: any) => {
+        let map = new Map<string, Map<string, DocumentStats>>()
+        for (const [date, results] of Object.entries(response)) {
+          let dayResultsMap = new Map<string, DocumentStats>()
+          for (const [activityType, result] of Object.entries(results)) {
+            dayResultsMap.set(activityType, ActivityStatisticsService.mapToDocumentStats(result))
+          }
+          map.set(date, dayResultsMap);
         }
-        return stats;
+        return map;
       });
-  };
+
+  getStats = () =>
+    this.restService
+      .get(`/activity-statistics/stats`)
+      .map((response: any) => {
+        for (const [key, value] of Object.entries(response)) {
+          response[key] = ActivityStatisticsService.mapToDocumentStats(value);
+        }
+        return response;
+      });
 
   static getDateString = (date: Date) => {
     let month = (date.getMonth() + 1).toString();
@@ -43,4 +49,6 @@ export class ActivityStatisticsService {
     }
     return  `${date.getFullYear()}-${month}-${day}`;
   }
+
+  private static mapToDocumentStats = (obj: any) => new DocumentStats(obj['sum'], obj['count'], obj['min'], obj['max'], obj['sumsqr']);
 }

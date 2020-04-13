@@ -4,6 +4,7 @@ import { ActivityDashboardComponent } from "./component/activity-dashboard/activ
 import { ActivityStatisticsComponent } from "./component/activity-statistics/activity-statistics.component";
 import { ActivityFeedComponent } from "./component/activity-feed/activity-feed.component";
 import { EditActivityComponent } from "./component/activity-feed/edit-activity/edit-activity.component";
+import { ProgressDashboardComponent } from "./component/progress-dashboard/progress-dashboard.component";
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'feed',
     component: ActivityFeedComponent,
+  },
+  {
+    path: 'progress',
+    component: ProgressDashboardComponent,
   },
   {
     path: 'edit',
