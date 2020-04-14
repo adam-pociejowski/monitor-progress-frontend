@@ -1,4 +1,4 @@
 export class ChartSeries {
-  constructor(public name: string,
+  constructor(public name: any,
               public value: number) {}
 }

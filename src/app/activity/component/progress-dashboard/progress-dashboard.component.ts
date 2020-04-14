@@ -13,16 +13,15 @@ import {ShortDatePipe} from "../../../core/pipe/short.date.pipe";
   styleUrls: ['./progress-dashboard.component.css']
 })
 export class ProgressDashboardComponent implements OnInit {
-  view: any[] = [700, 300];
-  selectedActivityTypes = ['PULL_UP', 'PUSH_UP'];
-  selectedChartAggregates = ['COUNT', 'SUM', 'AVG', 'MAX'];
-  allAggregates = ['COUNT', 'SUM', 'AVG', 'MAX'];
+  view: any[] = [1200, 300];
+  selectedActivityTypes = [ 'PULL_UP', 'PULL_UP_BICEPS', 'PUSH_UP', 'PUSH_UP_BICEPS', 'PUSH_UP_ELEVATED'];
+  selectedChartAggregates = ['AVG', 'MAX', 'SUM', 'COUNT'];
   chartData: Map<string, Array<ChartModel>>;
   legend: boolean = true;
   animations: boolean = true;
   xAxisLabel: string = 'Date';
   colorScheme = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+    domain: ['#CFC0BB', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
   };
   data: Map<string, Map<string, DocumentStats>>;
   datePipe = new ShortDatePipe();
@@ -47,19 +46,21 @@ export class ProgressDashboardComponent implements OnInit {
         this.selectedActivityTypes
           .map((activityType: string) => {
             let activityStats: Map<string, DocumentStats> = this.data.get(activityType);
-            this.initChartModelsForActivityType(chartData, activityType);
-            activityStats.forEach((documentStats: DocumentStats, date: string) => {
-              for (let aggregate of this.selectedChartAggregates) {
-                chartData
-                  .get(aggregate)
-                  .find(x => x.name == activityType)
-                  .series
-                  .find(series => {
-                    return this.datePipe.transform(new Date(Date.parse(date)).toISOString()) == series.name
-                  })
-                  .value = this.getValueDependsOnAggregate(documentStats, aggregate);
-              }
-            })
+            if (activityStats) {
+              this.initChartModelsForActivityType(chartData, activityType);
+              activityStats.forEach((documentStats: DocumentStats, date: string) => {
+                for (let aggregate of this.selectedChartAggregates) {
+                  chartData
+                    .get(aggregate)
+                    .find(x => x.name == activityType)
+                    .series
+                    .push(new ChartSeries(
+                      this.datePipe
+                        .transform(new Date(Date.parse(date)).toISOString()),
+                      this.getValueDependsOnAggregate(documentStats, aggregate)));
+                }
+              })
+            }
           })
         this.chartData = chartData;
       });
@@ -79,18 +80,22 @@ export class ProgressDashboardComponent implements OnInit {
     this.selectedChartAggregates
       .forEach((aggregate: string) => {
         chartData.set(aggregate, new Array<ChartModel>());
+        this.appendAllDatesModel(aggregate, datesArray, chartData);
         this.selectedActivityTypes
           .forEach((activityType: string) => {
-            chartData.get(aggregate).push(new ChartModel(activityType, this.prepareEmptyChartSeries(datesArray)))
-
+            chartData.get(aggregate).push(new ChartModel(activityType, []))
           })
       })
     return chartData;
   }
 
-  private prepareEmptyChartSeries = (datesArray: Date[]) =>
-    datesArray
-      .map((date: Date) => new ChartSeries(this.datePipe.transform(date.toISOString()), 0));
+  private appendAllDatesModel = (aggregate: string,
+                                 datesArray: Date[],
+                                 chartData: Map<string, Array<ChartModel>>) =>
+    chartData
+      .get(aggregate)
+      .push(new ChartModel('ALL_DATES', datesArray
+        .map((date: Date) => new ChartSeries(this.datePipe.transform(date.toISOString()), 0))));
 
   private generateDatesArray = (minDate: Date, maxDate: Date) => {
     let dates = [];

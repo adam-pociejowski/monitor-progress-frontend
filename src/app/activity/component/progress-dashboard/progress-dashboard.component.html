@@ -1,19 +1,22 @@
 
 <div *ngIf="chartData">
-  <div  *ngFor="let chart of chartData | keyvalue">
-    <ngx-charts-line-chart
-      [view]="view"
-      [scheme]="colorScheme"
-      [legend]="legend"
-      [showXAxisLabel]="true"
-      [showYAxisLabel]="true"
-      [xAxis]="true"
-      [yAxis]="true"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="chart.key"
-      [timeline]="true"
-      [results]="chart.value">
-    </ngx-charts-line-chart>
+  <div  *ngFor="let aggregate of selectedChartAggregates"
+        class="card progress-card">
+    <div class="card-body">
+      <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [legend]="legend"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="aggregate"
+        [timeline]="true"
+        [results]="chartData.get(aggregate)">
+      </ngx-charts-line-chart>
+    </div>
   </div>
 </div>
 
