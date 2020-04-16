@@ -36,7 +36,6 @@ export class ActivityService {
             return this.configs;
         });
     }
-    console.log('configs1', this.configs);
     return Observable.of(this.configs);
   };
 

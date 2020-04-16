@@ -1,5 +1,7 @@
+<button class="btn btn-primary" (click)="visibleDiagram = 'DATE'">DATE</button>
+<button class="btn btn-primary" (click)="visibleDiagram = 'WEEK'">WEEK</button>
 
-<div *ngIf="chartData">
+<div *ngIf="dateChartData && weekChartData">
   <div  *ngFor="let aggregate of selectedChartAggregates"
         class="card progress-card">
     <div class="card-body">
@@ -14,11 +16,8 @@
         [xAxisLabel]="xAxisLabel"
         [yAxisLabel]="aggregate"
         [timeline]="true"
-        [results]="chartData.get(aggregate)">
+        [results]="visibleDiagram == 'DATE' ? dateChartData.get(aggregate) : weekChartData.get(aggregate)">
       </ngx-charts-line-chart>
     </div>
   </div>
 </div>
-
-
-

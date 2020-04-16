@@ -28,6 +28,21 @@ export class ActivityStatisticsService {
         return map;
       });
 
+  getStatsPerWeek = () =>
+    this.restService
+      .get(`/activity-statistics/stats-per-week`)
+      .map((response: any) => {
+        let map = new Map<string, Map<string, DocumentStats>>()
+        for (const [date, results] of Object.entries(response)) {
+          let dayResultsMap = new Map<string, DocumentStats>()
+          for (const [activityType, result] of Object.entries(results)) {
+            dayResultsMap.set(activityType, ActivityStatisticsService.mapToDocumentStats(result))
+          }
+          map.set(date, dayResultsMap);
+        }
+        return map;
+      });
+
   getStats = () =>
     this.restService
       .get(`/activity-statistics/stats`)
