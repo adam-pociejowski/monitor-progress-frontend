@@ -39,7 +39,7 @@ jobs:
           name: Add server IP to known hosts
           command: ssh-keyscan $MASTER_SERVER_URL >> ~/.ssh/known_hosts
       - run:
-          name: Change image verion in configuration file
+          name: Change image version in configuration file
           command: find ./k8s/. -name deployment.yaml -exec sed -i "s/apociejowski\/monitoring-progress-frontend/apociejowski\/monitoring-progress-frontend:$CIRCLE_BUILD_NUM/g" {} +
       - run:
           name: Send configuration files to server
@@ -47,6 +47,21 @@ jobs:
       - run:
           name: Apply kubernetes configuration
           command: ssh -i ~/.ssh/id_rsa_circleci_remote_docker_engine valverde@$MASTER_SERVER_URL 'kubectl apply -f ~/k8s'
+      - run:
+          name: Build Michal dist
+          command: npm run build_prod_michal
+      - run:
+          name: Build Michal docker image
+          command: docker build -t apociejowski/monitoring-progress-frontend-michal:$CIRCLE_BUILD_NUM -t apociejowski/monitoring-progress-frontend-michal:latest .
+      - run:
+          name: Push Michal current version of docker image
+          command: docker push apociejowski/monitoring-progress-frontend-michal:$CIRCLE_BUILD_NUM
+      - run:
+          name: Push Michal latest version of docker image
+          command: docker push apociejowski/monitoring-progress-frontend-michal:latest
+      - run:
+          name: Change Michal image version in configuration file
+          command: find ./k8s-michal/. -name deployment.yaml -exec sed -i "s/apociejowski\/monitoring-progress-frontend-michal/apociejowski\/monitoring-progress-frontend-michal:$CIRCLE_BUILD_NUM/g" {} +
       - run:
           name: Send Michal configuration files to server
           command: 'scp -i ~/.ssh/id_rsa_circleci_remote_docker_engine -r k8s-michal valverde@$MASTER_SERVER_URL:'

@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: app-frontend-michal
-          image: apociejowski/monitoring-progress-frontend
+          image: apociejowski/monitoring-progress-frontend-michal
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 80
