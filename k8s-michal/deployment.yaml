@@ -1,17 +1,17 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: app-frontend
+  name: app-frontend-michal
   namespace: "monitoring-progress-michal"
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: app-frontend
+        app: app-frontend-michal
     spec:
       containers:
-        - name: app-frontend
+        - name: app-frontend-michal
           image: apociejowski/monitoring-progress-frontend
           imagePullPolicy: "IfNotPresent"
           ports:
