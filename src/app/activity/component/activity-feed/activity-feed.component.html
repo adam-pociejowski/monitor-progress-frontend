@@ -1,23 +1,40 @@
 <div *ngIf="stats">
   <div class="card day-card"
        *ngFor="let dayActivities of dayActivitiesList">
-    <h5 class="card-title">{{dayActivities.date}}</h5>
+    <h5 class="card-title day-title">{{dayActivities.date}}</h5>
     <div class="card-body">
       <div class="card activity-card"
            *ngFor="let activity of dayActivities.activities">
         <div class="card-body">
-          <h5 class="card-title">
+          <h5 class="card-title activity-title">
             {{activity.value.name}}
             <fa-icon (click)="onActivityDeleted(dayActivities, activity)" class="skull-icon float-right" [icon]="faSkull"></fa-icon>
             <fa-icon (click)="onActivityEdit(activity)" class="edit-icon float-right" [icon]="faEdit"></fa-icon>
           </h5>
         </div>
+
         <ul class="list-group list-group-flush">
-          <li class="list-group-item list-element">Type: {{activity.value.type}}</li>
-          <li class="list-group-item list-element">Amount: {{activity.value.measure.value}}
-            <span *ngIf="stats[activity.value.type].max == activity.value.measure.value" class="badge badge-success">Record!</span>
+          <li class="list-group-item list-element">
+            <div class="row">
+              <div class="col-3">Type:</div>
+              <div class="col">{{activity.value.type}}</div>
+            </div>
           </li>
-          <li class="list-group-item list-element">Fitness points: {{activity.value.fitnessPoints}}</li>
+          <li class="list-group-item list-element">
+            <div class="row">
+              <div class="col-3">Amount:</div>
+              <div class="col">
+                {{activity.value.measure.value}}
+                <span *ngIf="stats[activity.value.type].max == activity.value.measure.value" class="badge badge-success">Record!</span>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item list-element">
+            <div class="row">
+              <div class="col-3">Fitness points:</div>
+              <div class="col">{{activity.value.fitnessPoints}}</div>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
