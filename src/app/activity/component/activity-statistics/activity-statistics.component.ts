@@ -35,7 +35,7 @@ export class ActivityStatisticsComponent implements OnInit {
             value: data[date]
           })
         }
-        this.view = [100 + this.data.length * 100, 400];
+        this.view = [1070, 400];
       });
 
   onIntervalChanged = () =>
