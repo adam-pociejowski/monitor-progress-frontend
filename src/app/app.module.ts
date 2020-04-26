@@ -10,6 +10,20 @@ import { ActivityModule } from './activity/activity.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NavbarComponent } from './core/component/navbar/navbar.component';
+import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserModule } from './user/user.module';
+
+const config = new AuthServiceConfig([
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider("610048003186418")
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -25,10 +39,19 @@ import { NavbarComponent } from './core/component/navbar/navbar.component';
     HttpClientModule,
     FontAwesomeModule,
     ToastrModule.forRoot(),
-    ActivityModule
+    SocialLoginModule,
+    NgbModule,
+
+    // App modules
+    ActivityModule,
+    UserModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}

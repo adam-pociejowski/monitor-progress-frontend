@@ -6,9 +6,5 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./activity-dashboard.component.css']
 })
 export class ActivityDashboardComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }
