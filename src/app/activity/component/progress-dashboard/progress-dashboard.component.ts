@@ -1,11 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivityStatisticsService} from "../../service/activity-statistics.service";
-import {DocumentStats} from "../../../core/model/document.stats.model";
-import {ChartModel} from "../../model/chart.model";
-import {ActivityService} from "../../service/activity.service";
-import {ActivityConfig} from "../../model/activity.config.model";
-import {ChartSeries} from "../../model/chart.series.model";
-import {ShortDatePipe} from "../../../core/pipe/short.date.pipe";
+import { Component, OnInit } from '@angular/core';
+import { ActivityStatisticsService } from '../../service/activity-statistics.service';
+import { DocumentStats } from '../../../core/model/document.stats.model';
+import { ChartModel } from '../../model/chart.model';
+import { ChartSeries } from '../../model/chart.series.model';
+import { ShortDatePipe } from '../../../core/pipe/short.date.pipe';
 
 @Component({
   selector: 'app-progress-dashboard',
@@ -29,24 +27,28 @@ export class ProgressDashboardComponent implements OnInit {
   datePipe = new ShortDatePipe();
   visibleDiagram: string;
 
-  constructor(private activityStatisticsService: ActivityStatisticsService,
-              private activityService: ActivityService) {
-  }
+  constructor(private activityStatisticsService: ActivityStatisticsService) {}
 
   ngOnInit(): void {
     this.activityStatisticsService
-      .getStatsPerDate()
+      .getStats(
+        ['', 0],
+        [{}, new Date().getFullYear()+1],
+        5)
       .subscribe((response: Map<string, Map<string, DocumentStats>>) => {
         this.statsPerDateData = response;
         this.dateChartData = this.prepareChartData('DATE', this.statsPerDateData);
         this.visibleDiagram = 'DATE';
       });
     this.activityStatisticsService
-      .getStatsPerWeek()
-      .subscribe((response: any) => {
+      .getStats(
+        ['', 0],
+        [{}, new Date().getFullYear()+1],
+        4)
+      .subscribe((response: Map<string, Map<string, DocumentStats>>) => {
         this.statsPerWeekData = response;
-        this.weekChartData = this.prepareChartData('WEEK', this.statsPerWeekData);
-      })
+        this.dateChartData = this.prepareChartData('WEEK', this.statsPerWeekData);
+      });
   }
 
   prepareChartData = (type: string,
@@ -69,9 +71,9 @@ export class ProgressDashboardComponent implements OnInit {
                     date,
                     this.getValueDependsOnAggregate(documentStats, aggregate)));
             }
-          })
+          });
         }
-      })
+      });
     return chartData;
   };
 
@@ -86,7 +88,7 @@ export class ProgressDashboardComponent implements OnInit {
       case 'AVG':
         return documentStats.sum / documentStats.count;
     }
-  }
+  };
 
   private initChartData = (type: string,
                            data: Map<string, Map<string, DocumentStats>>) => {
@@ -100,11 +102,11 @@ export class ProgressDashboardComponent implements OnInit {
         }
         this.selectedActivityTypes
           .forEach((activityType: string) => {
-            chartData.get(aggregate).push(new ChartModel(activityType, []))
-          })
-      })
+            chartData.get(aggregate).push(new ChartModel(activityType, []));
+          });
+      });
     return chartData;
-  }
+  };
 
   private appendAllDatesModel = (aggregate: string,
                                  datesArray: Date[],
@@ -122,7 +124,7 @@ export class ProgressDashboardComponent implements OnInit {
       currentDate.setDate(currentDate.getDate() + 1);
     }
     return dates;
-  }
+  };
 
   private static isBeforeOrEqual(dateBefore: Date, dateAfter: Date) {
     dateBefore.setHours(0, 0, 0, 0);
@@ -139,10 +141,10 @@ export class ProgressDashboardComponent implements OnInit {
             if (Date.parse(date) < minDate) {
               minDate = Date.parse(date);
             }
-          })
-      })
+          });
+      });
     return new Date(minDate);
-  }
+  };
 
   private initChartModelsForActivityType = (chartData: Map<string, Array<ChartModel>>, activityType: string) =>
     chartData

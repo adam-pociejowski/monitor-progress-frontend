@@ -8,7 +8,6 @@ import { ShortDatePipe } from "../../../core/pipe/short.date.pipe";
 import { ToastService } from "../../../core/service/toast.service";
 import { Router } from "@angular/router";
 import {ActivityStatisticsService} from "../../service/activity-statistics.service";
-import {DocumentStats} from "../../../core/model/document.stats.model";
 
 @Component({
   selector: 'app-activity-feed',
@@ -31,7 +30,7 @@ export class ActivityFeedComponent implements OnInit {
   ngOnInit(): void {
     this.findNextPageOfActivities();
     this.activityStatisticsService
-      .getStats()
+      .getStats([""], [{}], 5)
       .subscribe((stats: any) => { this.stats = stats; console.log(stats);} )
   }
 

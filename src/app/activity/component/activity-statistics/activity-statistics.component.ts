@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivityStatisticsService} from "../../service/activity-statistics.service";
-import {ShortDatePipe} from "../../../core/pipe/short.date.pipe";
+import { ActivityStatisticsService } from '../../service/activity-statistics.service';
 
 @Component({
   selector: 'app-activity-statistics',
@@ -14,7 +13,6 @@ export class ActivityStatisticsComponent implements OnInit {
     domain: ['#5AA454']
   };
   numberOfDaysForStats = 14;
-  datePipe = new ShortDatePipe();
 
   constructor(private activityStatisticsService: ActivityStatisticsService) {}
 
@@ -24,17 +22,30 @@ export class ActivityStatisticsComponent implements OnInit {
 
   getFitnessPointsPerDay = () =>
     this.activityStatisticsService
-      .getFitnessPointsPerDay(
-        ActivityStatisticsService.getDateString(new Date(new Date().setDate(new Date().getDate() - this.numberOfDaysForStats + 1))),
-        ActivityStatisticsService.getDateString(new Date()))
+      .getFitnessPoints(
+        this.activityStatisticsService.prepareKey('', new Date(new Date().setDate(new Date().getDate() - this.numberOfDaysForStats + 1))),
+        this.activityStatisticsService.prepareKey({}, new Date()),
+        5)
       .subscribe((data: any) => {
         this.data = [];
-        for (let date in data) {
+        let dataMap = new Map<string, number>();
+        data
+          .forEach((value, key) => {
+            value
+              .forEach((stats) => {
+                if (dataMap.has(key)) {
+                  dataMap.set(key, dataMap.get(key) + stats.sum);
+                } else {
+                  dataMap.set(key, stats.sum);
+                }
+              });
+          });
+        dataMap.forEach((value, key) => {
           this.data.push({
-            name: this.datePipe.transform(date),
-            value: data[date]
-          })
-        }
+            name: key,
+            value: value
+          });
+        });
         this.view = [1070, 400];
       });
 

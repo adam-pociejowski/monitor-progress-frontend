@@ -21,7 +21,7 @@ export class ActivityResultComponent implements OnInit {
     this.activityService.onActivityAdded
       .subscribe((activity: Activity) => {
         this.activityStatisticsService
-          .getStats()
+          .getStats([""], [{}], 5)
           .subscribe((stats: any) => {
             this.activityService.getConfigByName(activity.type)
               .subscribe((config: ActivityConfig) => {

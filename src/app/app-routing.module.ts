@@ -1,8 +1,10 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { UserGuard } from './user/guard/user.guard';
 
 const routes: Routes = [
   {
+    canActivateChild: [UserGuard],
     path: 'activity',
     loadChildren: './activity/activity.module#ActivityModule',
   },
@@ -18,6 +20,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

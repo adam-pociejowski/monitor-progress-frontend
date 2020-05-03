@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { UserService } from '../../user/service/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,22 +9,23 @@ import { environment } from '../../../environments/environment';
 export class RestService {
   private API_URL = environment.backend_url;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient,
+              private userService: UserService) {}
 
-  get<T>(url: string, params?: any) {
-    return this.http.get<T>(this.API_URL + url, {params: params});
-  }
+  get = (url: string, params?: any) =>
+    this.http.get(this.API_URL + url, { params: params, headers: this.prepareAuthorizationHeaders() });
 
-  post(endpoint: string, data: any, params?: any) {
-    return this.http.post(this.API_URL + endpoint, data, {params: params});
-  }
+  post = (endpoint: string, data: any, params?: any) =>
+     this.http.post(this.API_URL + endpoint, data, { params: params, headers: this.prepareAuthorizationHeaders() });
 
-  put(endpoint: string, data: any, params?: any) {
-    return this.http.put(this.API_URL + endpoint, data, {params: params});
-  }
+  put = (endpoint: string, data: any, params?: any) =>
+     this.http.put(this.API_URL + endpoint, data, { params: params, headers: this.prepareAuthorizationHeaders() });
 
-  delete(endpoint: string, params?: any) {
-    return this.http.delete(this.API_URL + endpoint, {params: params});
-  }
+  delete = (endpoint: string, params?: any) =>
+     this.http.delete(this.API_URL + endpoint, { params: params, headers: this.prepareAuthorizationHeaders() });
+
+  prepareAuthorizationHeaders = () =>
+    this.userService.loggedIn ?
+      new HttpHeaders({ 'auth': JSON.stringify(this.userService.user) }) :
+      {};
 }
