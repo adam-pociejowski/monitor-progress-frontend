@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivityService } from "../../service/activity.service";
-import { Activity } from "../../model/activity.model";
-import { DocumentModel } from "../../../core/model/document.model";
-import { faEdit, faSkull } from '@fortawesome/free-solid-svg-icons';
-import { DayActivities } from "../../model/day.activities.model";
-import { ShortDatePipe } from "../../../core/pipe/short.date.pipe";
-import { ToastService } from "../../../core/service/toast.service";
-import { Router } from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivityService} from "../../service/activity.service";
+import {Activity} from "../../model/activity.model";
+import {DocumentModel} from "../../../core/model/document.model";
+import {faEdit, faSkull} from '@fortawesome/free-solid-svg-icons';
+import {DayActivities} from "../../model/day.activities.model";
+import {ShortDatePipe} from "../../../core/pipe/short.date.pipe";
+import {ToastService} from "../../../core/service/toast.service";
+import {Router} from "@angular/router";
 import {ActivityStatisticsService} from "../../service/activity-statistics.service";
+import {GroupType} from "../../../core/model/group.type.enum";
+import {DocumentStats} from "../../../core/model/document.stats.model";
+import {ReducedResult} from "../../../core/model/reduced.stats.model";
 
 @Component({
   selector: 'app-activity-feed',
@@ -22,7 +25,7 @@ export class ActivityFeedComponent implements OnInit {
   dayActivitiesList: DayActivities[] = [];
   datePipe = new ShortDatePipe();
 
-  constructor(private activityStatisticsService: ActivityStatisticsService,
+  constructor(public activityStatisticsService: ActivityStatisticsService,
               private activityService: ActivityService,
               private toastService: ToastService,
               private router: Router) {}
@@ -30,9 +33,12 @@ export class ActivityFeedComponent implements OnInit {
   ngOnInit(): void {
     this.findNextPageOfActivities();
     this.activityStatisticsService
-      .getStats([""], [{}], 5)
+      .getStats([""], [{}], 2)
       .subscribe((stats: any) => { this.stats = stats; console.log(stats);} )
   }
+
+  getMaxForActivityType = (activityType: string): ReducedResult<DocumentStats> =>
+    this.activityStatisticsService.findByKeys(this.stats, new Map([[GroupType.ACTIVITY_TYPE, activityType]]));
 
   onActivityDeleted = (dayActivities: DayActivities,
                        activity: DocumentModel<Activity>) =>
@@ -47,7 +53,7 @@ export class ActivityFeedComponent implements OnInit {
 
   onActivityEdit = (activity: DocumentModel<Activity>) => {
     this.activityService.editingActivity = activity;
-    this.router.navigate(['edit']);
+    this.router.navigate(['activity/edit']);
   }
 
   findNextPageOfActivities = () =>

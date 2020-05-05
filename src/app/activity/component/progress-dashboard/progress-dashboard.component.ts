@@ -4,6 +4,9 @@ import { DocumentStats } from '../../../core/model/document.stats.model';
 import { ChartModel } from '../../model/chart.model';
 import { ChartSeries } from '../../model/chart.series.model';
 import { ShortDatePipe } from '../../../core/pipe/short.date.pipe';
+import { ActivityService } from "../../service/activity.service";
+import {ReducedResult} from "../../../core/model/reduced.stats.model";
+import {GroupType} from "../../../core/model/group.type.enum";
 
 @Component({
   selector: 'app-progress-dashboard',
@@ -22,8 +25,6 @@ export class ProgressDashboardComponent implements OnInit {
   colorScheme = {
     domain: ['#CFC0BB', '#000063', '#00600f', '#ab000d', '#81d4fa', '#d500f9', '#37474f', '#ff8f00']
   };
-  statsPerDateData: Map<string, Map<string, DocumentStats>>;
-  statsPerWeekData: Map<string, Map<string, DocumentStats>>;
   datePipe = new ShortDatePipe();
   visibleDiagram: string;
 
@@ -35,24 +36,23 @@ export class ProgressDashboardComponent implements OnInit {
         ['', 0],
         [{}, new Date().getFullYear()+1],
         5)
-      .subscribe((response: Map<string, Map<string, DocumentStats>>) => {
-        this.statsPerDateData = response;
-        this.dateChartData = this.prepareChartData('DATE', this.statsPerDateData);
+      .subscribe((results: ReducedResult<DocumentStats>[]) => {
+        this.dateChartData = this.prepareChartData('DATE', results);
         this.visibleDiagram = 'DATE';
       });
-    this.activityStatisticsService
-      .getStats(
-        ['', 0],
-        [{}, new Date().getFullYear()+1],
-        4)
-      .subscribe((response: Map<string, Map<string, DocumentStats>>) => {
-        this.statsPerWeekData = response;
-        this.dateChartData = this.prepareChartData('WEEK', this.statsPerWeekData);
-      });
+    // this.activityStatisticsService
+    //   .getStats(
+    //     ['', 0],
+    //     [{}, new Date().getFullYear()+1],
+    //     5)
+    //   .subscribe((results: ReducedResult<DocumentStats>[]) => {
+    //     this.weekChartData = this.prepareChartData('WEEK', results);
+    //   });
   }
 
   prepareChartData = (type: string,
-                      data: Map<string, Map<string, DocumentStats>>) => {
+                      results: ReducedResult<DocumentStats>[]) => {
+    let data = this.prepareResultsMap(results);
     let chartData: Map<string, Array<ChartModel>> = this.initChartData(type, data);
     this.selectedActivityTypes
       .map((activityType: string) => {
@@ -76,6 +76,21 @@ export class ProgressDashboardComponent implements OnInit {
       });
     return chartData;
   };
+
+  private prepareResultsMap = (results: ReducedResult<DocumentStats>[]) => {
+    let data = new Map<string, Map<string, DocumentStats>>();
+    results
+      .forEach((result: ReducedResult<DocumentStats>) => {
+        if (!data.has(result.groupMap.get(GroupType.ACTIVITY_TYPE))) {
+          data.set(result.groupMap.get(GroupType.ACTIVITY_TYPE), new Map<string, DocumentStats>());
+        }
+        let year = result.groupMap.get(GroupType.YEAR);
+        let month = result.groupMap.get(GroupType.MONTH);
+        let day = result.groupMap.get(GroupType.DAY);
+        data.get(result.groupMap.get(GroupType.ACTIVITY_TYPE)).set(`${year}-${month}-${day}`, result.value)
+      })
+    return data;
+  }
 
   private getValueDependsOnAggregate = (documentStats: DocumentStats, aggregate: string) => {
     switch (aggregate) {

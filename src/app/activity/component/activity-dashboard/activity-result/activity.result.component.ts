@@ -4,6 +4,7 @@ import {ActivityService} from "../../../service/activity.service";
 import {Activity} from "../../../model/activity.model";
 import {ActivityConfig} from "../../../model/activity.config.model";
 import {ActivityStatisticsService} from "../../../service/activity-statistics.service";
+import {GroupType} from "../../../../core/model/group.type.enum";
 
 @Component({
   selector: 'app-activity-result',
@@ -21,13 +22,14 @@ export class ActivityResultComponent implements OnInit {
     this.activityService.onActivityAdded
       .subscribe((activity: Activity) => {
         this.activityStatisticsService
-          .getStats([""], [{}], 5)
+          .getStats([""], [{}], 2)
           .subscribe((stats: any) => {
             this.activityService.getConfigByName(activity.type)
               .subscribe((config: ActivityConfig) => {
+                let maxResult = this.activityStatisticsService.findByKeys(stats, new Map([[GroupType.ACTIVITY_TYPE, activity.type]])).value.max;
                 let factor = config.fitnessPointsFactor;
-                this.activity = new ActivityResult(activity.type, activity.measure.value,activity.measure.value * factor);
-                this.record = new ActivityResult(activity.type, stats[activity.type].max,stats[activity.type].max * factor);
+                this.activity = new ActivityResult(activity.type, activity.measure.value, activity.measure.value * factor);
+                this.record = new ActivityResult(activity.type, maxResult, maxResult * factor);
               });
           });
       })
