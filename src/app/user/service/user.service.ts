@@ -11,19 +11,19 @@ export class UserService {
   loggedIn: boolean;
 
   constructor(private authService: AuthService) {
-    if (environment.production) {
+    // if (environment.production) {
       this.authService.authState.subscribe((user) => {
         this.user = user;
         this.loggedIn = (user != null);
       });
-    } else {
-      this.user = new SocialUser()
-      this.user.firstName = 'Adam';
-      this.user.email = 'valverde12345@gmail.com';
-      this.user.provider = 'FACEBOOK';
-      this.user.photoUrl = 'https://graph.facebook.com/1951809644963751/picture?type=normal';
-      this.loggedIn = true;
-    }
+    // } else {
+    //   this.user = new SocialUser()
+    //   this.user.firstName = 'Adam';
+    //   this.user.email = 'valverde12345@gmail.com';
+    //   this.user.provider = 'FACEBOOK';
+    //   this.user.photoUrl = 'https://graph.facebook.com/1951809644963751/picture?type=normal';
+    //   this.loggedIn = true;
+    // }
   }
 
   signIn = (provider: AuthProvider) => {
