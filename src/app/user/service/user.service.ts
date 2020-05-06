@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthProvider } from '../enums/auth.provider.enum';
 import { AuthService, FacebookLoginProvider, SocialUser } from 'angularx-social-login';
-import { environment } from "../../../environments/environment";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +10,13 @@ export class UserService {
   user: SocialUser;
   loggedIn: boolean;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private router: Router) {
     // if (environment.production) {
       this.authService.authState.subscribe((user) => {
         this.user = user;
         this.loggedIn = (user != null);
+        this.router.navigate(['activity/new']);
       });
     // } else {
     //   this.user = new SocialUser()
