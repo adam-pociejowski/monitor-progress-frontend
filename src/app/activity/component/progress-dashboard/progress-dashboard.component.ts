@@ -7,6 +7,7 @@ import { ShortDatePipe } from '../../../core/pipe/short.date.pipe';
 import { ActivityService } from "../../service/activity.service";
 import {ReducedResult} from "../../../core/model/reduced.stats.model";
 import {GroupType} from "../../../core/model/group.type.enum";
+import {ReducedResultService} from "../../../core/service/reduced.result.service";
 
 @Component({
   selector: 'app-progress-dashboard',
@@ -14,14 +15,13 @@ import {GroupType} from "../../../core/model/group.type.enum";
   styleUrls: ['./progress-dashboard.component.css']
 })
 export class ProgressDashboardComponent implements OnInit {
-  view: any[] = [1200, 300];
+  view: any[] = [window.innerWidth - 150, 300];
   selectedActivityTypes = ['PULL_UP', 'PULL_UP_BICEPS', 'PUSH_UP', 'PUSH_UP_BICEPS', 'PUSH_UP_ELEVATED'];
   selectedChartAggregates = ['AVG', 'MAX', 'SUM', 'COUNT'];
   dateChartData: Map<string, Array<ChartModel>>;
   weekChartData: Map<string, Array<ChartModel>>;
   legend: boolean = true;
   animations: boolean = true;
-  xAxisLabel: string = 'Date';
   colorScheme = {
     domain: ['#CFC0BB', '#000063', '#00600f', '#ab000d', '#81d4fa', '#d500f9', '#37474f', '#ff8f00']
   };
@@ -37,17 +37,10 @@ export class ProgressDashboardComponent implements OnInit {
         [{}, new Date().getFullYear()+1],
         5)
       .subscribe((results: ReducedResult<DocumentStats>[]) => {
+        console.log(results);
         this.dateChartData = this.prepareChartData('DATE', results);
         this.visibleDiagram = 'DATE';
       });
-    // this.activityStatisticsService
-    //   .getStats(
-    //     ['', 0],
-    //     [{}, new Date().getFullYear()+1],
-    //     5)
-    //   .subscribe((results: ReducedResult<DocumentStats>[]) => {
-    //     this.weekChartData = this.prepareChartData('WEEK', results);
-    //   });
   }
 
   prepareChartData = (type: string,
@@ -84,10 +77,7 @@ export class ProgressDashboardComponent implements OnInit {
         if (!data.has(result.groupMap.get(GroupType.ACTIVITY_TYPE))) {
           data.set(result.groupMap.get(GroupType.ACTIVITY_TYPE), new Map<string, DocumentStats>());
         }
-        let year = result.groupMap.get(GroupType.YEAR);
-        let month = result.groupMap.get(GroupType.MONTH);
-        let day = result.groupMap.get(GroupType.DAY);
-        data.get(result.groupMap.get(GroupType.ACTIVITY_TYPE)).set(`${year}-${month}-${day}`, result.value)
+        data.get(result.groupMap.get(GroupType.ACTIVITY_TYPE)).set(ReducedResultService.mapToDateString(result, "YYYY-MM-dd"), result.value)
       })
     return data;
   }

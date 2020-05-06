@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-root',
   template: '' +
     '<app-navbar></app-navbar>' +
-    '<div class="container" style="margin-top: 70px">' +
+    '<div style="margin-top: 70px">' +
     '<router-outlet></router-outlet></div>'
 })
 export class AppComponent implements OnInit {

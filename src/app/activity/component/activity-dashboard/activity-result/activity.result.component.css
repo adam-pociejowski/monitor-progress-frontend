@@ -1,8 +1,4 @@
-.bold {
-  font-weight: bold;
-}
-
-.activity-result-table {
+.activity-result-list {
   width: 30rem;
   margin-bottom: 30px;
 }
@@ -10,4 +6,8 @@
 .header {
   font-weight: bold;
   font-size: 20px;
+}
+
+.result-col {
+  width: 10rem;
 }

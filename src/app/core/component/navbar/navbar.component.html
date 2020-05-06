@@ -1,34 +1,19 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-  <a class="navbar-brand">Monitoring Progress</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a routerLink="/activity/new" class="nav-link">Add</a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/activity/feed" class="nav-link">Feed</a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/activity/statistics" class="nav-link">Stats</a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/activity/progress" class="nav-link">Progress</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li *ngIf="userService.user" class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img src="{{userService.user.photoUrl}}" width="40" height="40" class="rounded-circle" alt="Profile image"/>
-          <span style="margin-left: 10px">{{userService.user.firstName}}</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" (click)="onSignOut()">Sign Out</a>
-        </div>
-      </li>
-    </ul>
-  </div>
-</nav>
+<mat-toolbar color="primary">
+  <span>Monitoring Progress</span>
+  <a style="margin-left: 50px" mat-button [routerLink]="'/activity/new'">Add activity</a>
+  <a mat-button [routerLink]="'/activity/feed'">Feed</a>
+  <a mat-button [routerLink]="'/activity/statistics'">Stats</a>
+  <a mat-button [routerLink]="'/activity/progress'">Progress</a>
+
+  <span class="fill-remaining-space"></span>
+
+  <span *ngIf="userService.user">
+    <img src="{{userService.user.photoUrl}}" width="40" height="40" style="border-radius: 50%; margin-top: 12px" alt="Profile image"/>
+  </span>
+  <span *ngIf="userService.user">
+    <button mat-button [matMenuTriggerFor]="menu">{{userService.user.firstName}}</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onSignOut()">Sign Out</button>
+    </mat-menu>
+  </span>
+</mat-toolbar>

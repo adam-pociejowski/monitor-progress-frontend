@@ -11,6 +11,7 @@ import { ActivityFeedComponent } from './component/activity-feed/activity-feed.c
 import { ShortDatePipe } from "../core/pipe/short.date.pipe";
 import { EditActivityComponent } from './component/activity-feed/edit-activity/edit-activity.component';
 import { ProgressDashboardComponent } from './component/progress-dashboard/progress-dashboard.component';
+import {MaterialModule} from "../core/module/material.module";
 
 @NgModule({
   declarations: [
@@ -24,8 +25,9 @@ import { ProgressDashboardComponent } from './component/progress-dashboard/progr
     ProgressDashboardComponent
   ],
     imports: [
-        SharedModule,
-        ActivityRoutingModule
+      SharedModule,
+      ActivityRoutingModule,
+      MaterialModule
     ],
   providers: [
     ActivityStatisticsService,

@@ -1,46 +1,42 @@
-<div *ngIf="stats">
-  <div class="card day-card"
-       *ngFor="let dayActivities of dayActivitiesList">
-    <h5 class="card-title day-title">{{dayActivities.date}}</h5>
-    <div class="card-body">
-      <div class="card activity-card"
-           *ngFor="let activity of dayActivities.activities">
-        <div class="card-body">
-          <h5 class="card-title activity-title">
+<mat-card *ngIf="stats" class="card">
+  <mat-card *ngFor="let dayActivities of dayActivitiesList">
+    <mat-card-header>
+      <mat-card-title>{{dayActivities.date}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content *ngFor="let activity of dayActivities.activities">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
             {{activity.value.name}}
             <fa-icon (click)="onActivityDeleted(dayActivities, activity)" class="skull-icon float-right" [icon]="faSkull"></fa-icon>
             <fa-icon (click)="onActivityEdit(activity)" class="edit-icon float-right" [icon]="faEdit"></fa-icon>
-          </h5>
-        </div>
-
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item list-element">
-            <div class="row">
-              <div class="col-3">Type:</div>
-              <div class="col">{{activity.value.type}}</div>
-            </div>
-          </li>
-          <li class="list-group-item list-element">
-            <div class="row">
-              <div class="col-3">Amount:</div>
-              <div class="col">
-                {{activity.value.measure.value}}
-                <span *ngIf="getMaxForActivityType(activity.value.type).value.max == activity.value.measure.value" class="badge badge-success">Record!</span>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item list-element">
-            <div class="row">
-              <div class="col-3">Fitness points:</div>
-              <div class="col">{{activity.value.fitnessPoints}}</div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<button class="btn btn-primary"
-        (click)="findNextPageOfActivities()"
-        style="font-size: 22px">Load next activities</button>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span class="result-col">Type</span>
+              <span class="result-col">{{activity.value.type}}</span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span class="result-col">Amount</span>
+              <span class="result-col">{{activity.value.measure.value}}
+                <span *ngIf="getMaxForActivityType(activity.value.type).value.max == activity.value.measure.value" style="background-color: dodgerblue">Record!</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span class="result-col">Fitness points</span>
+              <span class="result-col">{{activity.value.fitnessPoints}}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
+  <mat-card-actions>
+    <button mat-raised-button color="primary"  (click)="findNextPageOfActivities()" type="submit">LOAD</button>
+  </mat-card-actions>
+</mat-card>

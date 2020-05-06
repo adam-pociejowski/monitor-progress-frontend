@@ -1,23 +1,35 @@
-<div class="card" style="width: 25rem">
-  <div class="card-body">
-    <h2 class="card-title">Add Activity</h2>
-    <form [formGroup]="addActivityFormGroup" (ngSubmit)="onActivitySubmit()">
-      <div class="form-group">
-        <label for="nameInput">Name</label>
-        <input type="text" class="form-control" id="nameInput" formControlName="name">
-      </div>
-      <div class="form-group">
-        <label for="activityTypeSelect">Select activity type</label>
-        <select class="form-control" id="activityTypeSelect" formControlName="type"
-                (ngModelChange)="onTypeChanged($event)">
-          <option *ngFor="let config of this.configs" [ngValue]="config.name">{{config.name}}</option>
-        </select>
-      </div>
-      <div class="form-group" formGroupName="measure">
-        <label for="amountInput">Amount</label>
-        <input type="number" class="form-control" id="amountInput" formControlName="value">
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
-</div>
+
+<form [formGroup]="addActivityFormGroup" (ngSubmit)="onActivitySubmit()">
+  <mat-card class="add-form">
+    <mat-card-header>
+      <mat-card-title>Add Activity</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        <mat-form-field appearance="standard">
+          <mat-label>Activity name</mat-label>
+          <input matInput placeholder="Placeholder" id="nameInput" formControlName="name"/>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Activity type</mat-label>
+          <mat-select formControlName="type">
+            <mat-option *ngFor="let config of this.configs" [value]="config.name">
+              {{config.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="standard" formGroupName="measure">
+          <mat-label>Amount</mat-label>
+          <input matInput type="number" placeholder="Amount" id="amountInput" formControlName="value"/>
+        </mat-form-field>
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">ADD</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

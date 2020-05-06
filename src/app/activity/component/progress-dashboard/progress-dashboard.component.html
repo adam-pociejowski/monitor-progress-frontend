@@ -1,10 +1,7 @@
-<!--<button class="btn btn-primary" (click)="visibleDiagram = 'DATE'">DATE</button>-->
-<!--<button class="btn btn-primary" (click)="visibleDiagram = 'WEEK'">WEEK</button>-->
-
 <div *ngIf="dateChartData">
-  <div *ngFor="let aggregate of selectedChartAggregates"
-        class="card progress-card">
-    <div class="card-body">
+  <mat-grid-list cols="1" rowHeight="290px" *ngFor="let aggregate of selectedChartAggregates">
+    <mat-grid-tile>
+      <h5 class="header">{{aggregate}}</h5>
       <ngx-charts-line-chart
         [view]="view"
         [scheme]="colorScheme"
@@ -13,11 +10,9 @@
         [showYAxisLabel]="true"
         [xAxis]="true"
         [yAxis]="true"
-        [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="aggregate"
         [timeline]="true"
         [results]="visibleDiagram == 'DATE' ? dateChartData.get(aggregate) : weekChartData.get(aggregate)">
       </ngx-charts-line-chart>
-    </div>
-  </div>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>

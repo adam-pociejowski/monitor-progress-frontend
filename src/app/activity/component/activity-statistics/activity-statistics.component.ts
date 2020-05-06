@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityStatisticsService } from '../../service/activity-statistics.service';
+import {ReducedResult} from "../../../core/model/reduced.stats.model";
+import {DocumentStats} from "../../../core/model/document.stats.model";
+import {ReducedResultService} from "../../../core/service/reduced.result.service";
 
 @Component({
   selector: 'app-activity-statistics',
@@ -23,30 +26,20 @@ export class ActivityStatisticsComponent implements OnInit {
   getFitnessPointsPerDay = () =>
     this.activityStatisticsService
       .getFitnessPoints(
-        this.activityStatisticsService.prepareKey('', new Date(new Date().setDate(new Date().getDate() - this.numberOfDaysForStats + 1))),
-        this.activityStatisticsService.prepareKey({}, new Date()),
+        this.activityStatisticsService.prepareKey(new Date(new Date().setDate(new Date().getDate() - this.numberOfDaysForStats + 1))),
+        this.activityStatisticsService.prepareKey(new Date()),
         5)
-      .subscribe((data: any) => {
+      .subscribe((reducedResults: ReducedResult<DocumentStats>[]) => {
+        console.log(reducedResults);
         this.data = [];
-        let dataMap = new Map<string, number>();
-        data
-          .forEach((value, key) => {
-            value
-              .forEach((stats) => {
-                if (dataMap.has(key)) {
-                  dataMap.set(key, dataMap.get(key) + stats.sum);
-                } else {
-                  dataMap.set(key, stats.sum);
-                }
-              });
-          });
-        dataMap.forEach((value, key) => {
-          this.data.push({
-            name: key,
-            value: value
-          });
-        });
-        this.view = [1070, 400];
+        reducedResults
+          .forEach((reducedResult: ReducedResult<DocumentStats>) => {
+            this.data.push({
+              name: ReducedResultService.mapToDateString(reducedResult, "dd/MM/YY"),
+              value: reducedResult.value.sum
+            });
+          })
+        this.view = [window.innerWidth - 50, 400];
       });
 
   onIntervalChanged = () =>

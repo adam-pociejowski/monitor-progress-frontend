@@ -1,6 +1,17 @@
-<div class="card">
-  <h5 class="card-title">Fitness points per day</h5>
-  <div class="card-body">
+
+<mat-card>
+  <mat-card-title>Load stats</mat-card-title>
+  <mat-card-content>
+    <mat-form-field appearance="standard">
+      <input matInput type="number" placeholder="Amount" [(ngModel)]="numberOfDaysForStats"/>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="onIntervalChanged()" type="submit">LOAD</button>
+  </mat-card-content>
+</mat-card>
+
+<mat-card style="height: 400px">
+  <mat-card-title>Fitness points</mat-card-title>
+  <mat-card-content>
     <ngx-charts-bar-vertical
       [view]="view"
       [scheme]="colorScheme"
@@ -13,10 +24,8 @@
       [showYAxisLabel]="true"
       [yAxisLabel]="'Fitness points'">
     </ngx-charts-bar-vertical>
-  </div>
-</div>
+  </mat-card-content>
+</mat-card>
 
-<div class="form-group">
-  <input type="number" [(ngModel)]="numberOfDaysForStats" />
-  <button class="btn btn-primary" (click)="onIntervalChanged()">Change interval</button>
-</div>
+
+

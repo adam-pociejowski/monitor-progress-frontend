@@ -11,8 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NavbarComponent } from './core/component/navbar/navbar.component';
 import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserModule } from './user/user.module';
+import { MaterialModule } from "./core/module/material.module";
 
 const config = new AuthServiceConfig([
   {
@@ -40,7 +40,7 @@ export function provideConfig() {
     FontAwesomeModule,
     ToastrModule.forRoot(),
     SocialLoginModule,
-    NgbModule,
+    MaterialModule,
 
     // App modules
     ActivityModule,

@@ -1,18 +1,20 @@
-
-<table class="table activity-result-table" *ngIf="activity && record">
-  <tr>
-    <td></td>
-    <td class="header">Your result</td>
-    <td class="header">Current record</td>
-  </tr>
-  <tr>
-    <td class="bold">Amount</td>
-    <td>{{activity.result}}</td>
-    <td>{{record.result}}</td>
-  </tr>
-  <tr>
-    <td class="bold">Fitness points</td>
-    <td>{{activity.fitnessPoints}}</td>
-    <td>{{record.fitnessPoints}}</td>
-  </tr>
-</table>
+<mat-list class="activity-result-list" *ngIf="activity && record">
+  <mat-list-item>
+    <span class="result-col"></span>
+    <span class="result-col header">Your result</span>
+    <span class="result-col header">Current record</span>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
+    <span class="result-col">Amount</span>
+    <span class="result-col">{{activity.result}}</span>
+    <span class="result-col">{{record.result}}</span>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
+    <span class="result-col">Fitness points</span>
+    <span class="result-col">{{activity.fitnessPoints}}</span>
+    <span class="result-col">{{record.fitnessPoints}}</span>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+</mat-list>

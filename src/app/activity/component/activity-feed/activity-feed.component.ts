@@ -11,6 +11,7 @@ import {ActivityStatisticsService} from "../../service/activity-statistics.servi
 import {GroupType} from "../../../core/model/group.type.enum";
 import {DocumentStats} from "../../../core/model/document.stats.model";
 import {ReducedResult} from "../../../core/model/reduced.stats.model";
+import {ReducedResultService} from "../../../core/service/reduced.result.service";
 
 @Component({
   selector: 'app-activity-feed',
@@ -34,11 +35,11 @@ export class ActivityFeedComponent implements OnInit {
     this.findNextPageOfActivities();
     this.activityStatisticsService
       .getStats([""], [{}], 2)
-      .subscribe((stats: any) => { this.stats = stats; console.log(stats);} )
+      .subscribe((stats: any) => this.stats = stats )
   }
 
   getMaxForActivityType = (activityType: string): ReducedResult<DocumentStats> =>
-    this.activityStatisticsService.findByKeys(this.stats, new Map([[GroupType.ACTIVITY_TYPE, activityType]]));
+    ReducedResultService.findByKeys(this.stats, new Map([[GroupType.ACTIVITY_TYPE, activityType]]))[0];
 
   onActivityDeleted = (dayActivities: DayActivities,
                        activity: DocumentModel<Activity>) =>
@@ -75,9 +76,7 @@ export class ActivityFeedComponent implements OnInit {
     }
   }
 
-  private findDayActivity = (date: string) =>
-    this.dayActivitiesList
-      .find(x => x.date === date);
+  private findDayActivity = (date: string) => this.dayActivitiesList.find(x => x.date === date);
 
   private static getDateFromOldestActivity(dayActivitiesList:  DayActivities[]) {
     if (dayActivitiesList.length == 0) {

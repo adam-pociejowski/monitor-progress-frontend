@@ -1,8 +1,5 @@
-.progress-card {
-  width: 1300px;
-  margin-top: 10px;
-}
-
-.progress-card > .card-body {
-  padding-bottom: 0;
+.header {
+  font-weight: bold;
+  font-size: 25px;
+  margin-left: 70px;
 }
