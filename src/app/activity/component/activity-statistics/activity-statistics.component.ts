@@ -15,7 +15,7 @@ export class ActivityStatisticsComponent implements OnInit {
   colorScheme = {
     domain: ['#5AA454']
   };
-  numberOfDaysForStats = 14;
+  numberOfDaysForStats = 60;
 
   constructor(private activityStatisticsService: ActivityStatisticsService) {}
 

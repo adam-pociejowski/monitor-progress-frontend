@@ -1,6 +1,8 @@
 .activity-result-list {
-  width: 30rem;
   margin-bottom: 30px;
+  width: 40vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header {
@@ -10,4 +12,9 @@
 
 .result-col {
   width: 10rem;
+}
+
+.add-form {
+  width: 40vw;
+  margin: 0 auto;
 }
