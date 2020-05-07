@@ -1,5 +1,18 @@
 
-<app-add-activity></app-add-activity>
-<app-activity-result></app-activity-result>
+
+<mat-grid-list cols="5" rowHeight="700px">
+  <mat-grid-tile [colspan]="3">
+    <div style="height: 100%">
+      <app-add-activity></app-add-activity>
+      <app-activity-result></app-activity-result>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="2">
+    <app-goal-panel style="height: 100%"></app-goal-panel>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
+
 
 

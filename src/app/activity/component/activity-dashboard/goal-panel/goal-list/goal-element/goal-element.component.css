@@ -1,0 +1,8 @@
+.progressbar {
+  height: 10px;
+}
+
+.inside-grid-left {
+  position: absolute;
+  left: 5px;
+}

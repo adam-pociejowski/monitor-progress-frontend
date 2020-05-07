@@ -1,0 +1,11 @@
+<mat-card class="goal-panel">
+  <mat-card-title class="title">
+    <div>GOALS</div>
+    <mat-icon (click)="onGoalAddIconClicked()">playlist_add</mat-icon>
+  </mat-card-title>
+  <mat-card-subtitle>Manage your activity goals</mat-card-subtitle>
+  <mat-card-content>
+    <app-add-goal *ngIf="goalAddIconClicked"></app-add-goal>
+    <app-goal-list></app-goal-list>
+  </mat-card-content>
+</mat-card>

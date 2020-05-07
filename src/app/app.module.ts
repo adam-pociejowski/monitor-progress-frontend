@@ -10,6 +10,7 @@ import { ActivityModule } from './activity/activity.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NavbarComponent } from './core/component/navbar/navbar.component';
+// @ts-ignore
 import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
 import { UserModule } from './user/user.module';
 import { MaterialModule } from "./core/module/material.module";

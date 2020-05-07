@@ -1,0 +1,7 @@
+
+<mat-card>
+  <mat-card-title class="title">CURRENT GOALS</mat-card-title>
+  <mat-card-content>
+    <app-goal-element *ngFor="let goal of goals" [goal]="goal"></app-goal-element>
+  </mat-card-content>
+</mat-card>

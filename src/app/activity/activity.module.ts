@@ -11,7 +11,11 @@ import { ActivityFeedComponent } from './component/activity-feed/activity-feed.c
 import { ShortDatePipe } from "../core/pipe/short.date.pipe";
 import { EditActivityComponent } from './component/activity-feed/edit-activity/edit-activity.component';
 import { ProgressDashboardComponent } from './component/progress-dashboard/progress-dashboard.component';
-import {MaterialModule} from "../core/module/material.module";
+import { MaterialModule } from "../core/module/material.module";
+import { GoalPanelComponent } from './component/activity-dashboard/goal-panel/goal-panel.component';
+import { AddGoalComponent } from './component/activity-dashboard/goal-panel/add-goal/add-goal.component';
+import { GoalListComponent } from './component/activity-dashboard/goal-panel/goal-list/goal-list.component';
+import { GoalElementComponent } from './component/activity-dashboard/goal-panel/goal-list/goal-element/goal-element.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import {MaterialModule} from "../core/module/material.module";
     ActivityFeedComponent,
     ShortDatePipe,
     EditActivityComponent,
-    ProgressDashboardComponent
+    ProgressDashboardComponent,
+    GoalPanelComponent,
+    AddGoalComponent,
+    GoalListComponent,
+    GoalElementComponent,
   ],
     imports: [
       SharedModule,
