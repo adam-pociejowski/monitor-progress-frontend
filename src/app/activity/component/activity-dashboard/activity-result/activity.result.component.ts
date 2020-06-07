@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActivityResult} from "../../../model/activity.result.model";
+import {ActivityResult} from "../../../model/activity/activity.result.model";
 import {ActivityService} from "../../../service/activity.service";
-import {Activity} from "../../../model/activity.model";
-import {ActivityConfig} from "../../../model/activity.config.model";
+import {Activity} from "../../../model/activity/activity.model";
+import {ActivityConfig} from "../../../model/activity/activity.config.model";
 import {ActivityStatisticsService} from "../../../service/activity-statistics.service";
 import {GroupType} from "../../../../core/model/group.type.enum";
 import {ReducedResultService} from "../../../../core/service/reduced.result.service";

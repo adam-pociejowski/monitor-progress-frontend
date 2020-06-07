@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityStatisticsService } from '../../service/activity-statistics.service';
 import { DocumentStats } from '../../../core/model/document.stats.model';
-import { ChartModel } from '../../model/chart.model';
-import { ChartSeries } from '../../model/chart.series.model';
+import { ChartModel } from '../../model/chart/chart.model';
+import { ChartSeries } from '../../model/chart/chart.series.model';
 import { ShortDatePipe } from '../../../core/pipe/short.date.pipe';
 import { ActivityService } from "../../service/activity.service";
 import {ReducedResult} from "../../../core/model/reduced.stats.model";

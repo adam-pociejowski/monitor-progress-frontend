@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../../../service/activity.service';
-import { Activity } from '../../../model/activity.model';
-import { ActivityConfig } from '../../../model/activity.config.model';
+import { Activity } from '../../../model/activity/activity.model';
+import { ActivityConfig } from '../../../model/activity/activity.config.model';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MeasureType } from '../../../model/measure.type.enum';
-import { Measure } from '../../../model/measure.model';
+import { MeasureType } from '../../../model/activity/measure.type.enum';
+import { Measure } from '../../../model/activity/measure.model';
 import { ToastService } from "../../../../core/service/toast.service";
 
 @Component({

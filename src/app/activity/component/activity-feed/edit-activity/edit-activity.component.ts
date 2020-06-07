@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivityConfig } from "../../../model/activity.config.model";
+import { ActivityConfig } from "../../../model/activity/activity.config.model";
 import { FormControl, FormGroup } from "@angular/forms";
 import { ActivityService } from "../../../service/activity.service";
 import { ToastService } from "../../../../core/service/toast.service";
-import { Activity } from "../../../model/activity.model";
+import { Activity } from "../../../model/activity/activity.model";
 import { DocumentModel } from "../../../../core/model/document.model";
 
 @Component({

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivityService } from "../../../../service/activity.service";
-import { ActivityConfig } from "../../../../model/activity.config.model";
-import { FormControl, FormGroup } from "@angular/forms";
-import {Period} from "../../../../../core/model/period.enum";
-import {GoalMeasure} from "../../../../../core/model/goal.measure.enum";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ActivityConfig} from "../../../../model/activity/activity.config.model";
+import {FormControl, FormGroup} from "@angular/forms";
+import {Period} from "../../../../model/goal/period.enum";
+import {GoalMeasure} from "../../../../model/goal/goal.measure.enum";
+import {Goal} from "../../../../model/goal/goal.model";
 
 @Component({
   selector: 'app-add-goal',
@@ -11,9 +11,10 @@ import {GoalMeasure} from "../../../../../core/model/goal.measure.enum";
   styleUrls: ['./add-goal.component.css']
 })
 export class AddGoalComponent implements OnInit {
-  configs: ActivityConfig[];
+  @Output() activityGoalAdded = new EventEmitter<Goal>();
+  @Input() configs: ActivityConfig[];
   activityTypes: string[] = ['ALL'];
-  periods: Period[] = [Period.NONE, Period.DAILY, Period.WEEKLY, Period.YEARLY];
+  periods: Period[] = [Period.NONE, Period.DAILY, Period.WEEKLY, Period.MONTHLY, Period.YEARLY];
   goalMeasures: GoalMeasure[] = [GoalMeasure.FITNESS_POINTS, GoalMeasure.SUM, GoalMeasure.MAXIMUM, GoalMeasure.AVERAGE];
   addGoalFormGroup = new FormGroup({
     activityType: new FormControl('ALL'),
@@ -22,14 +23,20 @@ export class AddGoalComponent implements OnInit {
     amount: new FormControl(0)
   });
 
-  constructor(private activityService: ActivityService) { }
+  constructor() {}
 
   ngOnInit(): void {
-    this.activityService.getConfigs()
-      .subscribe((configs: ActivityConfig[]) => {
-        this.configs = configs;
-        configs.forEach((config: ActivityConfig) => this.activityTypes.push(config.name));
-      });
+    this.configs
+      .forEach((config: ActivityConfig) => this.activityTypes.push(config.name));
   }
 
+  onGoalSubmitted = () => {
+    let form = this.addGoalFormGroup.getRawValue();
+    this.activityGoalAdded.emit(new Goal(
+      form.activityType,
+      form.period,
+      form.goalMeasure,
+      form.amount
+    ));
+  }
 }

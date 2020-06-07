@@ -6,5 +6,8 @@
     <div class="inside-grid-left">PERIOD: {{goal.period}}</div>
   </mat-grid-tile>
 </mat-grid-list>
-<mat-progress-bar mode="determinate" value="{{(goal.currentAmount / goal.goalAmount) * 100}}" class="progressbar"></mat-progress-bar>
-<div>{{goal.currentAmount}}/{{goal.goalAmount}} {{goal.goalMeasure}}</div>
+<mat-progress-bar
+  mode="determinate"
+  value="{{(goal.currentGoal.amount / goal.goalAmount) * 100}}"
+  class="progressbar"></mat-progress-bar>
+<div>{{goal.currentGoal.amount}}/{{goal.goalAmount}} {{goal.goalMeasure}}</div>

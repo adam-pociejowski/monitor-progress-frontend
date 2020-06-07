@@ -13,18 +13,18 @@ export class UserService {
   constructor(private authService: AuthService,
               private router: Router) {
     // if (environment.production) {
-      this.authService.authState.subscribe((user) => {
-        this.user = user;
-        this.loggedIn = (user != null);
-        this.router.navigate(['activity/new']);
-      });
+    // //   this.authService.authState.subscribe((user) => {
+    // //     this.user = user;
+    // //     this.loggedIn = (user != null);
+    // //     this.router.navigate(['activity/new']);
+    //   });
     // } else {
-    //   this.user = new SocialUser()
-    //   this.user.firstName = 'Adam';
-    //   this.user.email = 'valverde12345@gmail.com';
-    //   this.user.provider = 'FACEBOOK';
-    //   this.user.photoUrl = 'https://graph.facebook.com/1951809644963751/picture?type=normal';
-    //   this.loggedIn = true;
+      this.user = new SocialUser()
+      this.user.firstName = 'Adam';
+      this.user.email = 'valverde12345@gmail.com';
+      this.user.provider = 'FACEBOOK';
+      this.user.photoUrl = 'https://graph.facebook.com/1951809644963751/picture?type=normal';
+      this.loggedIn = true;
     // }
   }
 
