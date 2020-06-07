@@ -46,27 +46,16 @@ export class ActivityService extends CrudService<Activity>{
     this.restService
       .get(`/activity/older/${limit}/${previousDate}`)
       .map((response: any) =>
-        response.map((element: any) => this.mapToActivityDocument(element)));
+        response.map((element: any) => this.mapToDocument(element)));
 
-  findNewerDocuments = (limit: number, previousDate: string): Observable<DocumentModel<Activity>[]> =>
-    this.restService
-      .get(`/activity/older/${limit}/${previousDate}`)
-      .map((response: any) =>
-        response.map((element: any) => this.mapToActivityDocument(element)));
-
-  private mapToActivityDocument = (element: any): DocumentModel<Activity> =>
-    new DocumentModel<Activity>(
-      element.id,
-      element.rev,
-      new Activity(
-        element.value.name,
-        element.value.datetime,
-        element.value.type,
-        new Measure(
-          element.value.measure.type,
-          element.value.measure.value),
-        element.value.fitnessPoints,
-        element.value.metadata),
-      element.type
-    );
+  mapToObject = (obj: any): Activity =>
+    new Activity(
+      obj.name,
+      obj.datetime,
+      obj.type,
+      new Measure(
+        obj.measure.type,
+        obj.measure.value),
+      obj.fitnessPoints,
+      obj.metadata);
 }

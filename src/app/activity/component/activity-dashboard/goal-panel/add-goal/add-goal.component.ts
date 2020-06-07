@@ -36,7 +36,8 @@ export class AddGoalComponent implements OnInit {
       form.activityType,
       form.period,
       form.goalMeasure,
-      form.amount
+      form.amount,
+      new Date()
     ));
   }
 }

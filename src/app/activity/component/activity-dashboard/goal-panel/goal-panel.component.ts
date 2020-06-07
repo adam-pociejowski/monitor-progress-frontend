@@ -6,6 +6,7 @@ import { Period } from "../../../model/goal/period.enum";
 import { GoalMeasure } from "../../../model/goal/goal.measure.enum";
 import { GoalItem } from "../../../model/goal/goal-item.model";
 import { GoalService } from "../../../service/goal.service";
+import {DocumentModel} from "../../../../core/model/document.model";
 
 @Component({
   selector: 'app-goal-panel',
@@ -27,12 +28,19 @@ export class GoalPanelComponent implements OnInit {
   }
 
   getGoals = () => {
+    this.goalService
+      .findAll()
+      .subscribe((goals: DocumentModel<Goal>[]) => {
+        console.log('getGoals', goals);
+      });
+
     this.goals = [
       new Goal(
         'ALL',
         Period.DAILY,
         GoalMeasure.SUM,
         50,
+        new Date(),
         false,
         [],
         new GoalItem(
@@ -44,6 +52,7 @@ export class GoalPanelComponent implements OnInit {
         Period.WEEKLY,
         GoalMeasure.FITNESS_POINTS,
         23,
+        new Date(),
         false,
         [],
         new GoalItem(
