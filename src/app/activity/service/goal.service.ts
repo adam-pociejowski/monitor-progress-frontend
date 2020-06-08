@@ -31,7 +31,7 @@ export class GoalService extends CrudService<Goal> {
   private mapToGoalItem = (data: any) =>
     new GoalItem(
       data.amount,
-      data.startDate,
-      data.endDate
+      new Date(data.startDate),
+      new Date(data.endDate)
     )
 }

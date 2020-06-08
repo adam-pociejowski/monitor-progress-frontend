@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Goal } from "../../../../../model/goal/goal.model";
+import { DocumentModel } from "../../../../../../core/model/document.model";
 
 @Component({
   selector: 'app-goal-element',
@@ -7,7 +8,7 @@ import { Goal } from "../../../../../model/goal/goal.model";
   styleUrls: ['./goal-element.component.css']
 })
 export class GoalElementComponent implements OnInit {
-  @Input() goal: Goal
+  @Input() goal: DocumentModel<Goal>
 
   constructor() { }
 
