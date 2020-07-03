@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivityGoal} from "../../../../model/activity-goal.model";
-import {Period} from "../../../../../core/model/period.enum";
-import {GoalMeasure} from "../../../../../core/model/goal.measure.enum";
+import { Component, Input, OnInit } from '@angular/core';
+import { Goal } from "../../../../model/goal/goal.model";
+import {DocumentModel} from "../../../../../core/model/document.model";
 
 @Component({
   selector: 'app-goal-list',
@@ -9,15 +8,9 @@ import {GoalMeasure} from "../../../../../core/model/goal.measure.enum";
   styleUrls: ['./goal-list.component.css']
 })
 export class GoalListComponent implements OnInit {
-  goals: ActivityGoal[] = [
-    new ActivityGoal('ALL', Period.DAILY, GoalMeasure.SUM, 50, 40),
-    new ActivityGoal('ALL', Period.DAILY, GoalMeasure.SUM, 50, 40),
-    new ActivityGoal('PUSH_UP', Period.WEEKLY, GoalMeasure.SUM, 50, 78),
-    new ActivityGoal('PULL_UP', Period.DAILY, GoalMeasure.FITNESS_POINTS, 56, 40)
-  ]
+  @Input() goals: DocumentModel<Goal>[];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {}
-
 }

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivityService} from "../../service/activity.service";
-import {Activity} from "../../model/activity.model";
+import {Activity} from "../../model/activity/activity.model";
 import {DocumentModel} from "../../../core/model/document.model";
 import {faEdit, faSkull} from '@fortawesome/free-solid-svg-icons';
-import {DayActivities} from "../../model/day.activities.model";
+import {DayActivities} from "../../model/activity/day.activities.model";
 import {ShortDatePipe} from "../../../core/pipe/short.date.pipe";
 import {ToastService} from "../../../core/service/toast.service";
 import {Router} from "@angular/router";

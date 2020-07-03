@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
 import { RestService } from '../../core/service/rest.service';
 import { DocumentModel } from '../../core/model/document.model';
-import { Activity } from '../model/activity.model';
-import { Measure } from '../model/measure.model';
-import { ActivityConfig } from '../model/activity.config.model';
+import { Activity } from '../model/activity/activity.model';
+import { Measure } from '../model/activity/measure.model';
+import { ActivityConfig } from '../model/activity/activity.config.model';
 import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import "rxjs-compat/add/observable/of";
+import {CrudService} from "./crud.service";
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActivityService {
+export class ActivityService extends CrudService<Activity>{
   configs: ActivityConfig[] = [];
   onActivityAdded = new Subject<Activity>();
   editingActivity: DocumentModel<Activity>;
 
-  constructor(private restService: RestService) {}
+  constructor(restService: RestService) {
+    super(restService, '/activity')
+  }
 
   getConfigByName = (name: string) => {
     return this.getConfigs()
@@ -43,39 +46,16 @@ export class ActivityService {
     this.restService
       .get(`/activity/older/${limit}/${previousDate}`)
       .map((response: any) =>
-        response.map((element: any) => this.mapToActivityDocument(element)));
+        response.map((element: any) => this.mapToDocument(element)));
 
-  findNewerDocuments = (limit: number, previousDate: string): Observable<DocumentModel<Activity>[]> =>
-    this.restService
-      .get(`/activity/older/${limit}/${previousDate}`)
-      .map((response: any) =>
-        response.map((element: any) => this.mapToActivityDocument(element)));
-
-  add = (activity: Activity) =>
-    this.restService
-      .post('/activity', activity);
-
-  update = (updatedDocument: DocumentModel<Activity>) =>
-    this.restService
-      .put('/activity', updatedDocument);
-
-  delete = (removedDocument: DocumentModel<Activity>) =>
-    this.restService
-      .delete(`/activity/${removedDocument.id}/${removedDocument.rev}`);
-
-  private mapToActivityDocument = (element: any): DocumentModel<Activity> =>
-    new DocumentModel<Activity>(
-      element.id,
-      element.rev,
-      new Activity(
-        element.value.name,
-        element.value.datetime,
-        element.value.type,
-        new Measure(
-          element.value.measure.type,
-          element.value.measure.value),
-        element.value.fitnessPoints,
-        element.value.metadata),
-      element.type
-    );
+  mapToObject = (obj: any): Activity =>
+    new Activity(
+      obj.name,
+      obj.datetime,
+      obj.type,
+      new Measure(
+        obj.measure.type,
+        obj.measure.value),
+      obj.fitnessPoints,
+      obj.metadata);
 }

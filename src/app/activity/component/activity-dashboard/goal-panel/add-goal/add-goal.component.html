@@ -1,7 +1,10 @@
 <mat-card>
   <mat-card-title class="title">ADD GOAL</mat-card-title>
   <mat-card-content>
-    <form [formGroup]="addGoalFormGroup" style="margin-top: 20px">
+    <form
+      (ngSubmit)="onGoalSubmitted()"
+      [formGroup]="addGoalFormGroup"
+      style="margin-top: 20px">
       <mat-grid-list cols="2" rowHeight="50px">
         <mat-grid-tile [colspan]="1" [rowspan]="1">
             <mat-form-field appearance="fill">

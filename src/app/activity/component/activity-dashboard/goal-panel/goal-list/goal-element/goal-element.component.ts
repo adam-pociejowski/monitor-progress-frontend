@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivityGoal } from "../../../../../model/activity-goal.model";
+import { Goal } from "../../../../../model/goal/goal.model";
+import { DocumentModel } from "../../../../../../core/model/document.model";
 
 @Component({
   selector: 'app-goal-element',
@@ -7,10 +8,11 @@ import { ActivityGoal } from "../../../../../model/activity-goal.model";
   styleUrls: ['./goal-element.component.css']
 })
 export class GoalElementComponent implements OnInit {
-  @Input()
-  goal: ActivityGoal
+  @Input() goal: DocumentModel<Goal>
 
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.goal)
+  }
 }
